@@ -1,139 +1,522 @@
 /* =======================================================
-   GEN Z ERA - CORE QUESTION DATA MATRIX (ROMAN URDU)
+   GEN Z ERA - MAIN ARCHITECTURE & STATE RUNTIME ENGINE
    ======================================================= */
 
-const quizDatabase = {
-    "mcqs": [
-        {
-            id: 1,
-            question: "Pakistan ka sab se bara shehar konsa hai population ke hisab se?",
-            options: ["Lahore", "Karachi", "Islamabad", "Faisalabad"],
-            answer: "Karachi"
-        },
-        {
-            id: 2,
-            question: "Islam ke mutabiq Pehle Nabi ka naam kya hai?",
-            options: ["Hazrat Ibraheem A.S", "Hazrat Moosa A.S", "Hazrat Adam A.S", "Hazrat Esa A.S"],
-            answer: "Hazrat Adam A.S"
-        },
-        {
-            id: 3,
-            question: "Computer ka brain kis component ko kaha jata hai?",
-            options: ["RAM", "Hard Drive", "CPU", "GPU"],
-            answer: "CPU"
-        },
-        {
-            id: 4,
-            question: "Duniya ki sab se unchi pahari choti (mountain peak) konsi hai?",
-            options: ["K2", "Mount Everest", "Nanga Parbat", "Kangchenjunga"],
-            answer: "Mount Everest"
-        }
-    ],
-    "favorites": [
-        {
-            id: 101,
-            question: "Agar ap ko life time free supply mile, to kis cheez ko choose karein ge?",
-            options: ["Pizza", "Burger", "Biryani", "Ice Cream"],
-            isOpinion: true
-        },
-        {
-            id: 102,
-            question: "Ap ka sab se pasandida timepass activity konsi hai?",
-            options: ["Gaming", "Social Media Scrolling", "Movies/Web Series", "Sleeping"],
-            isOpinion: true
-        }
-    ],
-    "long-questions": [
-        {
-            id: 201,
-            question: "Pakistan ke 10 bare shehron mein se konsa shehar Punjab mein shamil hai jo zoor-o-shoor se jana jata hai?",
-            options: ["Karachi", "Lahore", "Peshawar", "Quetta", "Sialkot", "Multan", "Faisalabad", "Rawalpindi", "Gujranwala", "Hyderabad"],
-            answer: "Lahore" // Multiple correct map fallback context inside engine
-        }
-    ],
-    "puzzles": [
-        {
-            id: 301,
-            question: "Aik kamre mein herat angez tor par aik bnda mara para hai. Table par aik khali glass aur paani ki botal pari hai, lekin farsh geela hai. Killer ne kya weapon use kiya?",
-            options: ["Poison Ice Cube", "Gunshot", "Gas Leak", "Rope"],
-            answer: "Poison Ice Cube"
-        }
-    ],
-    "freedom": [
-        {
-            id: 401,
-            question: "Kya ap aik aisi machine use krna chahein ge jo ap ki real life ko control kre?",
-            options: ["Haan bilkul", "Kabhi bhi nahi", "Shayad agar safe ho", "Mujhe farq nahi parta"],
-            isOpinion: true
-        },
-        {
-            id: 402,
-            question: "2000 se 2026 tak ka sab se bara tech revolution kya hai?",
-            options: ["Smartphones", "Artificial Intelligence", "Crypto Currency", "High Speed Internet"],
-            isOpinion: true
-        }
-    ],
-    "emoji-quiz": [
-        {
-            id: 501,
-            question: "Is Pakistani Song ko guess karein: 👁️ + 👄 + 👁️ (Eye Contact Expression)",
-            options: ["Afreen Afreen", "Billo De Ghar", "Tajdar-e-Haram", "Passori"],
-            answer: "Afreen Afreen"
-        }
-    ],
-    "guess-movie": [
-        {
-            id: 601,
-            question: "Identify the action movie with cars falling out of planes:",
-            options: ["Fast and Furious 7", "Mission Impossible", "John Wick", "Die Hard"],
-            answer: "Fast and Furious 7"
-        }
-    ],
-    "guess-song": [
-        {
-            id: 701,
-            question: "'Tu jhoom jhoom jhoom' kis mashoor platform ka track hai?",
-            options: ["Coke Studio", "Nescafe Basement", "Suno AI", "Nafay Labs Originals"],
-            answer: "Coke Studio"
-        }
-    ],
-    "iq-challenge": [
-        {
-            id: 801,
-            question: "Complete the pattern sequence framework logically: 2, 4, 8, 16, ?",
-            options: ["20", "24", "32", "64"],
-            answer: "32"
-        }
-    ],
-    "impossible-choices": [
-        {
-            id: 901,
-            question: "Would You Rather: Hamesha ke liye internet band ho jaye YA hamesha ke liye fast food band ho jaye?",
-            options: ["No Internet", "No Fast Food"],
-            isOpinion: true
-        }
-    ],
-    "personality-quiz": [
-        {
-            id: 1001,
-            question: "Mushkil situation mein ap ka dimaag sab se pehle kya sochta hai?",
-            options: ["Fight back krna hai", "Bhaag nikalna hai", "Kisi dost se help leni hai", "Chill rhena hai"],
-            isOpinion: true
-        }
-    ]
+// Global App State Configuration
+let state = {
+    userEmail: null,
+    isAuthenticated: false,
+    currentCategory: null,
+    currentQuestionsArray: [],
+    currentQuestionIndex: 0,
+    score: 0,
+    correctCount: 0,
+    wrongCount: 0,
+    skippedCount: 0,
+    answersHistory: {}, // For storing opinion choices or execution maps
+    timerInterval: null,
+    timerSecondsRemaining: 30,
+    isMuted: false,
+    allTimeLeaderboard: [],
+    dailyLeaderboard: []
 };
 
-// Complete Metadata Registry Mapping for Frontend Rendering Loop
-const categoriesRegistry = [
-    { id: "mcqs", name: "MCQS Challenge", count: 4, icon: "fa-list-check" },
-    { id: "favorites", name: "YOUR FAVORITES", count: 2, icon: "fa-heart" },
-    { id: "long-questions", name: "LONG QUESTIONS", count: 1, icon: "fa-file-lines" },
-    { id: "puzzles", name: "PUZZLES & MYSTERIES", count: 1, icon: "fa-puzzle-piece" },
-    { id: "freedom", name: "FREEDOM ALL IN ONE", count: 2, icon: "fa-shuffle" },
-    { id: "emoji-quiz", name: "Emoji Quiz Hub", count: 1, icon: "fa-face-smile-wink" },
-    { id: "guess-movie", name: "Guess the Movie", count: 1, icon: "fa-film" },
-    { id: "guess-song", name: "Guess the Song", count: 1, icon: "fa-music" },
-    { id: "iq-challenge", name: "IQ Elite Challenge", count: 1, icon: "fa-brain" },
-    { id: "impossible-choices", name: "Impossible Choices", count: 1, icon: "fa-triangle-exclamation" },
-    { id: "personality-quiz", name: "Personality Evaluation", count: 1, icon: "fa-id-card" }
-];
+// Initialization entry point
+document.addEventListener("DOMContentLoaded", () => {
+    loadSavedStateFromStorage();
+    initDOMEvents();
+    renderCategoriesGrid(categoriesRegistry);
+    updateProfileUIDisplay();
+    hideLoadingScreen();
+});
+
+function hideLoadingScreen() {
+    setTimeout(() => {
+        const loader = document.getElementById("loading-screen");
+        if(loader) {
+            loader.style.opacity = "0";
+            setTimeout(() => loader.classList.add("hidden-element"), 500);
+        }
+    }, 1200);
+}
+
+// Local Storage Handlers
+function loadSavedStateFromStorage() {
+    state.userEmail = localStorage.getItem("gze_email");
+    state.isAuthenticated = !!state.userEmail;
+    state.score = parseInt(localStorage.getItem("gze_total_score")) || 0;
+    state.isMuted = localStorage.getItem("gze_muted") === "true";
+    
+    // Fallback seed data for professional Leaderboards configuration
+    const defaultAllTime = [
+        { name: "Malik Nafay Pro", score: 2500, rank: "Grand Master" },
+        { name: "Alpha_Falcon", score: 1850, rank: "Master" },
+        { name: "Z-ByteCoder", score: 1200, rank: "Diamond" }
+    ];
+    const defaultDaily = [
+        { name: "Alpha_Falcon", score: 320, rank: "Master" },
+        { name: "Guest_8932", score: 110, rank: "Silver" }
+    ];
+
+    state.allTimeLeaderboard = JSON.parse(localStorage.getItem("gze_lb_all")) || defaultAllTime;
+    state.dailyLeaderboard = JSON.parse(localStorage.getItem("gze_lb_daily")) || defaultDaily;
+    
+    // Inject self score into leaderboards array securely if logged in
+    syncUserInLeaderboards();
+}
+
+function syncUserInLeaderboards() {
+    if (state.isAuthenticated) {
+        const nameTag = state.userEmail.split("@")[0];
+        const currentRank = calculateRankTitle(state.score);
+        
+        let existingUser = state.allTimeLeaderboard.find(p => p.name === nameTag);
+        if (existingUser) {
+            if(state.score > existingUser.score) {
+                existingUser.score = state.score;
+                existingUser.rank = currentRank;
+            }
+        } else {
+            state.allTimeLeaderboard.push({ name: nameTag, score: state.score, rank: currentRank });
+        }
+        state.allTimeLeaderboard.sort((a,b) => b.score - a.score);
+        localStorage.setItem("gze_lb_all", JSON.stringify(state.allTimeLeaderboard));
+    }
+}
+
+function saveGlobalScoreProgress() {
+    localStorage.setItem("gze_total_score", state.score);
+    syncUserInLeaderboards();
+    updateProfileUIDisplay();
+}
+
+// UI Rendering Engine
+function renderCategoriesGrid(categories) {
+    const container = document.getElementById("categories-container");
+    container.innerHTML = "";
+
+    categories.forEach(cat => {
+        const row = document.createElement("div");
+        row.className = "glass-panel category-row-card";
+        row.setAttribute("data-cat-id", cat.id);
+        row.innerHTML = `
+            <div class="cat-left-info">
+                <i class="fas ${cat.icon} cat-big-icon"></i>
+                <div class="cat-details">
+                    <h3>${cat.name}</h3>
+                    <p>${cat.count} Systematic Evaluation Items</p>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right cat-right-arrow"></i>
+        `;
+        
+        // Setup Event Listeners dynamically
+        row.addEventListener("click", () => {
+            triggerAudioFeedback("click");
+            startQuizCategory(cat.id);
+        });
+        container.appendChild(row);
+    });
+}
+
+function updateProfileUIDisplay() {
+    const nameDisplay = document.getElementById("profile-name");
+    const rankDisplay = document.getElementById("profile-rank");
+    const rankTitleDisplay = document.getElementById("stat-rank-title");
+    const scoreDisplay = document.getElementById("stat-score");
+    const authBtnText = document.getElementById("auth-btn-text");
+    const authTag = document.getElementById("auth-status-tag");
+
+    if (state.isAuthenticated) {
+        nameDisplay.innerText = state.userEmail.split("@")[0];
+        authBtnText.innerText = "Sign Out";
+        authTag.innerText = "Session Secure Cloud Sync Verified";
+    } else {
+        nameDisplay.innerText = "Guest Player";
+        authBtnText.innerText = "Sign In";
+        authTag.innerText = "Not Signed In (Local Profile Mode)";
+    }
+
+    const calculatedRank = calculateRankTitle(state.score);
+    rankDisplay.innerText = calculatedRank;
+    rankDisplay.className = `rank-badge ${calculatedRank.toLowerCase().replace(" ", "-")}`;
+    rankTitleDisplay.innerText = calculatedRank;
+    scoreDisplay.innerText = state.score;
+
+    renderLeaderboardsUI();
+}
+
+function calculateRankTitle(score) {
+    if (score >= 2000) return "Grand Master";
+    if (score >= 1500) return "Master";
+    if (score >= 1000) return "Heroic";
+    if (score >= 600) return "Diamond";
+    if (score >= 350) return "Platinum";
+    if (score >= 150) return "Gold";
+    if (score >= 50) return "Silver";
+    return "Bronze";
+}
+
+function renderLeaderboardsUI(type = "all") {
+    const targetList = document.getElementById("leaderboard-list");
+    targetList.innerHTML = "";
+    const currentList = (type === "all") ? state.allTimeLeaderboard : state.dailyLeaderboard;
+
+    currentList.forEach((player, index) => {
+        const row = document.createElement("div");
+        row.className = `lb-row ${index < 3 ? 'top-three' : ''}`;
+        row.innerHTML = `
+            <span><b>#${index + 1}</b> ${player.name} <small class="rank-badge ${player.rank.toLowerCase().replace(" ", "-")}">${player.rank}</small></span>
+            <b>${player.score} XP</b>
+        `;
+        targetList.appendChild(row);
+    });
+}
+
+function switchLeaderboard(type) {
+    triggerAudioFeedback("click");
+    const tabs = document.querySelectorAll(".leaderboard-tabs .tab-btn");
+    tabs.forEach(t => t.classList.remove("active"));
+    if (event) event.target.classList.add("active");
+    renderLeaderboardsUI(type);
+}
+
+// Core Event Handling Configuration Bindings
+function initDOMEvents() {
+    // Top Bar Actions
+    document.getElementById("btn-auth").addEventListener("click", handleAuthButtonTrigger);
+    document.getElementById("auth-submit-action").addEventListener("click", processAuthenticationForm);
+    document.getElementById("btn-help").addEventListener("click", () => openModal("modal-help"));
+    document.getElementById("btn-theme").addEventListener("click", toggleThemeEngine);
+    document.getElementById("btn-mute").addEventListener("click", toggleMuteEngine);
+    
+    // Live Search Feature Filter Input
+    document.getElementById("global-search").addEventListener("input", performLiveCategorySearch);
+
+    // Quiz Control Elements Action bindings
+    document.getElementById("quiz-btn-home").addEventListener("click", returnToHomeDashboardView);
+    document.getElementById("quiz-btn-next").addEventListener("click", advanceToNextQuestion);
+    document.getElementById("quiz-btn-skip").addEventListener("click", skipCurrentQuestion);
+    document.getElementById("quiz-btn-submit").addEventListener("click", evaluateFinalQuizRunRun);
+    
+    // Result Operations Controls
+    document.getElementById("res-btn-home").addEventListener("click", returnToHomeDashboardView);
+    document.getElementById("res-btn-restart").addEventListener("click", () => startQuizCategory(state.currentCategory));
+    document.getElementById("res-btn-copy").addEventListener("click", copyMetricsToClipboard);
+
+    document.getElementById("btn-start-daily").addEventListener("click", startDailyChallengeCombination);
+}
+
+// Live Search logic tracking instantly
+function performLiveCategorySearch(e) {
+    const val = e.target.value.toLowerCase();
+    const filtered = categoriesRegistry.filter(c => c.name.toLowerCase().includes(val));
+    renderCategoriesGrid(filtered);
+}
+
+// Audio Engine feedback handlers
+function triggerAudioFeedback(type) {
+    if (state.isMuted) return;
+    const soundEl = document.getElementById(`sound-${type}`);
+    if (soundEl) {
+        soundEl.currentTime = 0;
+        soundEl.play().catch(() => {});
+    }
+}
+
+function toggleMuteEngine() {
+    state.isMuted = !state.isMuted;
+    localStorage.setItem("gze_muted", state.isMuted);
+    const icon = document.getElementById("btn-mute").querySelector("i");
+    icon.className = state.isMuted ? "fas fa-volume-mute" : "fas fa-volume-up";
+}
+
+function toggleThemeEngine() {
+    triggerAudioFeedback("click");
+    const isDark = document.body.classList.toggle("dark-mode");
+    document.body.classList.toggle("light-mode", !isDark);
+    document.getElementById("btn-theme").querySelector("i").className = isDark ? "fas fa-moon" : "fas fa-sun";
+}
+
+// Modal View togglers
+function openModal(id) {
+    triggerAudioFeedback("click");
+    document.getElementById(id).classList.remove("hidden-element");
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.add("hidden-element");
+}
+
+// Authentication Controller Processors
+function handleAuthButtonTrigger() {
+    triggerAudioFeedback("click");
+    if (state.isAuthenticated) {
+        // Handle explicit session log out
+        localStorage.removeItem("gze_email");
+        state.userEmail = null;
+        state.isAuthenticated = false;
+        updateProfileUIDisplay();
+    } else {
+        // Clear previous view state variables and present clean overlay interface
+        document.getElementById("auth-email-input").value = "";
+        document.getElementById("auth-error-msg").classList.add("hidden-element");
+        document.getElementById("ai-verification-badge").classList.add("hidden-element");
+        openModal("modal-auth");
+    }
+}
+
+function processAuthenticationForm() {
+    triggerAudioFeedback("click");
+    const emailInput = document.getElementById("auth-email-input").value.trim().toLowerCase();
+    
+    // Strict regular expression testing enforcing explicit Google domain matches ending with @gmail.com
+    const emailRegex = /^[a-z0-9._%+-]+@gmail\.com$/;
+    if (emailRegex.test(emailInput)) {
+        document.getElementById("auth-error-msg").classList.add("hidden-element");
+        const aiBadge = document.getElementById("ai-verification-badge");
+        aiBadge.classList.remove("hidden-element");
+        
+        setTimeout(() => {
+            localStorage.setItem("gze_email", emailInput);
+            state.userEmail = emailInput;
+            state.isAuthenticated = true;
+            closeModal("modal-auth");
+            updateProfileUIDisplay();
+        }, 1000);
+    } else {
+        document.getElementById("auth-error-msg").classList.remove("hidden-element");
+    }
+}
+
+// Daily Challenge Engine Combination builder
+function startDailyChallengeCombination() {
+    triggerAudioFeedback("click");
+    state.currentCategory = "daily-mix";
+    
+    // Collect 5 structured randomized tracks across various category layers
+    let pool = [];
+    Object.keys(quizDatabase).forEach(k => {
+        pool = pool.concat(quizDatabase[k]);
+    });
+    
+    // Shuffle global pool array systematically
+    pool.sort(() => 0.5 - Math.random());
+    state.currentQuestionsArray = pool.slice(0, 5); 
+    launchQuizViewportLayout("Daily Custom Randomized Mix");
+}
+
+// Standard Quiz Engine Core Runtime
+function startQuizCategory(catId) {
+    if (!quizDatabase[catId] || quizDatabase[catId].length === 0) return;
+    state.currentCategory = catId;
+    state.currentQuestionsArray = JSON.parse(JSON.stringify(quizDatabase[catId])); // deep clone tracking elements
+    launchQuizViewportLayout(categoriesRegistry.find(c => c.id === catId)?.name || "Quiz Evaluation");
+}
+
+function launchQuizViewportLayout(titleName) {
+    state.currentQuestionIndex = 0;
+    state.correctCount = 0;
+    state.wrongCount = 0;
+    state.skippedCount = 0;
+    
+    document.getElementById("quiz-category-title").innerText = titleName;
+    document.getElementById("total-q-num").innerText = state.currentQuestionsArray.length;
+    document.getElementById("live-score").innerText = "0";
+
+    switchView("view-quiz");
+    presentCurrentQuestionIndexData();
+}
+
+function presentCurrentQuestionIndexData() {
+    clearInterval(state.timerInterval);
+    
+    const currentQuestion = state.currentQuestionsArray[state.currentQuestionIndex];
+    document.getElementById("current-q-num").innerText = state.currentQuestionIndex + 1;
+    document.getElementById("question-text-display").innerText = currentQuestion.question;
+    
+    // Progress calculation tracking
+    const percentageProgress = ((state.currentQuestionIndex) / state.currentQuestionsArray.length) * 100;
+    document.getElementById("quiz-progress-bar").style.width = `${percentageProgress}%`;
+
+    // Render Answers Grid Loop Options
+    const optionsGrid = document.getElementById("options-grid");
+    optionsGrid.innerHTML = "";
+    
+    // UI Layout Handling adjustment based on long layout questions sizing specs
+    if (currentQuestion.options.length > 4) {
+        document.getElementById("long-scroll-hint").classList.remove("hidden-element");
+        optionsGrid.style.maxHeight = "320px";
+        optionsGrid.style.overflowY = "auto";
+    } else {
+        document.getElementById("long-scroll-hint").classList.add("hidden-element");
+        optionsGrid.style.maxHeight = "none";
+        optionsGrid.style.overflowY = "visible";
+    }
+
+    currentQuestion.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.className = "option-node-item";
+        btn.innerText = option;
+        btn.addEventListener("click", () => handleUserSelectionAction(btn, option, currentQuestion));
+        optionsGrid.appendChild(btn);
+    });
+
+    // Control structural navigation state resets
+    document.getElementById("quiz-btn-next").classList.add("disabled");
+    document.getElementById("quiz-btn-next").disabled = true;
+    
+    if (state.currentQuestionIndex === state.currentQuestionsArray.length - 1) {
+        document.getElementById("quiz-btn-next").classList.add("hidden-element");
+        document.getElementById("quiz-btn-submit").classList.remove("hidden-element");
+    } else {
+        document.getElementById("quiz-btn-next").classList.remove("hidden-element");
+        document.getElementById("quiz-btn-submit").classList.add("hidden-element");
+    }
+
+    startCountDownTimerEngine();
+}
+
+function startCountDownTimerEngine() {
+    state.timerSecondsRemaining = 30;
+    const progressCircle = document.getElementById("timer-progress");
+    const timerText = document.getElementById("timer-text");
+    timerText.innerText = state.timerSecondsRemaining;
+    
+    // Reset SVG Dashoffsets tracking
+    progressCircle.style.strokeDashoffset = "0";
+
+    state.timerInterval = setInterval(() => {
+        state.timerSecondsRemaining--;
+        timerText.innerText = state.timerSecondsRemaining;
+        
+        // Dynamic circular countdown updates calculations
+        const offset = (30 - state.timerSecondsRemaining) * (283 / 30);
+        progressCircle.style.strokeDashoffset = offset;
+
+        if (state.timerSecondsRemaining <= 0) {
+            clearInterval(state.timerInterval);
+            autoTimeoutQuestionTrack();
+        }
+    }, 1000);
+}
+
+function handleUserSelectionAction(selectedBtn, chosenText, questionObj) {
+    clearInterval(state.timerInterval);
+    triggerAudioFeedback("click");
+
+    const allButtons = document.querySelectorAll("#options-grid .option-node-item");
+    allButtons.forEach(b => b.classList.add("disabled"));
+
+    // Check configuration parameters determining opinion handling systems vs absolute correct/wrong checks
+    if (questionObj.isOpinion) {
+        selectedBtn.classList.add("correct-state"); // Opinions are inherently validated uniformly
+        state.correctCount++;
+        state.score += 10; // Allocate uniform base evaluation experience scale weights
+        state.answersHistory[questionObj.id] = chosenText;
+        localStorage.setItem("gze_user_choices", JSON.stringify(state.answersHistory));
+    } else {
+        // Absolute Truth Validation Sequence
+        if (chosenText === questionObj.answer) {
+            selectedBtn.classList.add("correct-state");
+            triggerAudioFeedback("correct");
+            state.correctCount++;
+            state.score += 20; // Correct verification weights points allocation
+        } else {
+            selectedBtn.classList.add("wrong-state");
+            triggerAudioFeedback("wrong");
+            state.wrongCount++;
+            
+            // Highlight explicit correct response row automatically to track visually cleanly
+            allButtons.forEach(b => {
+                if(b.innerText === questionObj.answer) b.classList.add("correct-state");
+            });
+        }
+    }
+
+    document.getElementById("live-score").innerText = state.score;
+    document.getElementById("quiz-btn-next").classList.remove("disabled");
+    document.getElementById("quiz-btn-next").disabled = false;
+}
+
+// Auto timeout if user does not answer
+function autoTimeoutQuestionTrack() {
+    state.skippedCount++;
+    const allButtons = document.querySelectorAll("#options-grid .option-node-item");
+    allButtons.forEach(b => b.classList.add("disabled"));
+    
+    const currentQuestion = state.currentQuestionsArray[state.currentQuestionIndex];
+    if(!currentQuestion.isOpinion) {
+        allButtons.forEach(b => {
+            if(b.innerText === currentQuestion.answer) b.classList.add("correct-state");
+        });
+    }
+    
+    document.getElementById("quiz-btn-next").classList.remove("disabled");
+    document.getElementById("quiz-btn-next").disabled = false;
+    advanceToNextQuestion();
+}
+
+function advanceToNextQuestion() {
+    triggerAudioFeedback("click");
+    state.currentQuestionIndex++;
+    if (state.currentQuestionIndex < state.currentQuestionsArray.length) {
+        presentCurrentQuestionIndexData();
+    } else {
+        evaluateFinalQuizRunRun();
+    }
+}
+
+function skipCurrentQuestion() {
+    clearInterval(state.timerInterval);
+    state.skippedCount++;
+    advanceToNextQuestion();
+}
+
+function evaluateFinalQuizRunRun() {
+    clearInterval(state.timerInterval);
+    triggerAudioFeedback("finish");
+    saveGlobalScoreProgress();
+
+    // Render Metrics Calculation Breakdown dashboard
+    document.getElementById("res-score").innerText = state.score;
+    document.getElementById("res-correct").innerText = state.correctCount;
+    document.getElementById("res-wrong").innerText = state.wrongCount;
+    document.getElementById("res-skipped").innerText = state.skippedCount;
+    
+    const totalQ = state.currentQuestionsArray.length;
+    const accuracyPercent = totalQ > 0 ? Math.round((state.correctCount / totalQ) * 100) : 0;
+    document.getElementById("res-percent").innerText = `${accuracyPercent}%`;
+    
+    const targetRank = calculateRankTitle(state.score);
+    document.getElementById("result-rank").innerText = targetRank;
+
+    // Performance dynamic analysis phrasing text loader
+    let performanceText = "Keep training! Try another category to sharpen your score vectors.";
+    if (accuracyPercent >= 80) performanceText = "Elite performance! Your Gen Z cultural IQ metrics are unmatched.";
+    else if (accuracyPercent >= 50) performanceText = "Solid rank metrics. Complete additional nodes to master.";
+    document.getElementById("result-message").innerText = performanceText;
+
+    switchView("view-results");
+}
+
+function returnToHomeDashboardView() {
+    triggerAudioFeedback("click");
+    clearInterval(state.timerInterval);
+    switchView("view-home");
+}
+
+function switchView(viewId) {
+    const views = document.querySelectorAll(".app-view");
+    views.forEach(v => v.classList.remove("active"));
+    document.getElementById(viewId).classList.add("active");
+}
+
+function copyMetricsToClipboard() {
+    triggerAudioFeedback("click");
+    const currentRank = calculateRankTitle(state.score);
+    const clipString = `GEN Z ERA PROFILE CERTIFICATE\nScore: ${state.score} XP\nRank Tier: ${currentRank}\nVerify at Malik Nafay Labs Engine Ecosystem Hub.`;
+    navigator.clipboard.writeText(clipString).then(() => {
+        alert("System score certificate profile string copied to clipboard successfully!");
+    });
+}
