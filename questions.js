@@ -1,139 +1,123 @@
-/* =======================================================
-   GEN Z ERA - CORE QUESTION DATA MATRIX (ROMAN URDU)
-   ======================================================= */
+/* ==========================================================
+   GEN Z ERA - SYSTEM DATABASE EVALUATION DATA STORAGE NODES
+   ========================================================== */
+
+const categoriesRegistry = [
+    { id: "tech-trends", name: "Gen Z Tech & Hacks", count: 5, icon: "fa-laptop-code" },
+    { id: "slang-gaming", name: "Slangs & Gaming Zone", count: 5, icon: "fa-gamepad" },
+    { id: "urdu-vibes", name: "Desi Culture & Memes", count: 5, icon: "fa-comments" }
+];
 
 const quizDatabase = {
-    "mcqs": [
+    "tech-trends": [
         {
-            id: 1,
-            question: "Pakistan ka sab se bara shehar konsa hai population ke hisab se?",
-            options: ["Lahore", "Karachi", "Islamabad", "Faisalabad"],
-            answer: "Karachi"
+            id: "t1",
+            question: "Cybersecurity mein PortSwigger platform kis cheez ki testing/labs ke liye sabsay zyada use hota hai?",
+            options: ["Web Application Security & Burp Suite Labs", "Android App Cracking", "Windows Password Hacking", "Hardware IoT Exploits"],
+            answer: "Web Application Security & Burp Suite Labs",
+            isOpinion: false
         },
         {
-            id: 2,
-            question: "Islam ke mutabiq Pehle Nabi ka naam kya hai?",
-            options: ["Hazrat Ibraheem A.S", "Hazrat Moosa A.S", "Hazrat Adam A.S", "Hazrat Esa A.S"],
-            answer: "Hazrat Adam A.S"
+            id: "t2",
+            question: "Agar aapko apne Windows Taskbar ko completely invisible ya unique blur dena ho, to kaunsa open-source tool utilize hota hai?",
+            options: ["TranslucentTB", "Rainmeter skin engine", "Rufus ISO Burner", "VLC Media Extractor"],
+            answer: "TranslucentTB",
+            isOpinion: false
         },
         {
-            id: 3,
-            question: "Computer ka brain kis component ko kaha jata hai?",
-            options: ["RAM", "Hard Drive", "CPU", "GPU"],
-            answer: "CPU"
+            id: "t3",
+            question: "Suno AI tool ne music generation industries mein kis tareeqay ka sabse bara revolution laya hai?",
+            options: ["Sirf text prompt likhne se full vocal rap aur music tracks bana dena", "Gano ki speed slow+reverb karna", "Video editing automate karna", "YouTube channel automatically generate karna"],
+            answer: "Sirf text prompt likhne se full vocal rap aur music tracks bana dena",
+            isOpinion: false
         },
         {
-            id: 4,
-            question: "Duniya ki sab se unchi pahari choti (mountain peak) konsi hai?",
-            options: ["K2", "Mount Everest", "Nanga Parbat", "Kangchenjunga"],
-            answer: "Mount Everest"
-        }
-    ],
-    "favorites": [
-        {
-            id: 101,
-            question: "Agar ap ko life time free supply mile, to kis cheez ko choose karein ge?",
-            options: ["Pizza", "Burger", "Biryani", "Ice Cream"],
-            isOpinion: true
+            id: "t4",
+            question: "OWASP Top 10 vulnerabilities list ka real-world security testing mein kya primary maqsad hota hai?",
+            options: ["Web apps ke top 10 sabse critical security risks ko standardly identity karna", "Wi-Fi routers ke automatic passwords crack karna", "Operating System updates block karna", "Dark Web search speeds barhana"],
+            answer: "Web apps ke top 10 sabse critical security risks ko standardly identity karna",
+            isOpinion: false
         },
         {
-            id: 102,
-            question: "Ap ka sab se pasandida timepass activity konsi hai?",
-            options: ["Gaming", "Social Media Scrolling", "Movies/Web Series", "Sleeping"],
-            isOpinion: true
+            id: "t5",
+            question: "Custom desktop widgets framework (jaise minimalist clock config ya layouts) ke liye sabsay legendary software kaunsa mana jata hai?",
+            options: ["Rainmeter Engine", "CPU-Z Monitor", "WinRAR Extractors", "Notepad++ Text Layout"],
+            answer: "Rainmeter Engine",
+            isOpinion: false
         }
     ],
-    "long-questions": [
+    "slang-gaming": [
         {
-            id: 201,
-            question: "Pakistan ke 10 bare shehron mein se konsa shehar Punjab mein shamil hai jo zoor-o-shoor se jana jata hai?",
-            options: ["Karachi", "Lahore", "Peshawar", "Quetta", "Sialkot", "Multan", "Faisalabad", "Rawalpindi", "Gujranwala", "Hyderabad"],
-            answer: "Lahore" // Multiple correct map fallback context inside engine
-        }
-    ],
-    "puzzles": [
-        {
-            id: 301,
-            question: "Aik kamre mein herat angez tor par aik bnda mara para hai. Table par aik khali glass aur paani ki botal pari hai, lekin farsh geela hai. Killer ne kya weapon use kiya?",
-            options: ["Poison Ice Cube", "Gunshot", "Gas Leak", "Rope"],
-            answer: "Poison Ice Cube"
-        }
-    ],
-    "freedom": [
-        {
-            id: 401,
-            question: "Kya ap aik aisi machine use krna chahein ge jo ap ki real life ko control kre?",
-            options: ["Haan bilkul", "Kabhi bhi nahi", "Shayad agar safe ho", "Mujhe farq nahi parta"],
-            isOpinion: true
+            id: "s1",
+            question: "Gen Z conversations mein jab koi bolta hai 'Bro is cooking...', to is phrase ka direct context kya hota hai?",
+            options: ["Bro kuch bohot kamaal ya exceptional cheez create/perform kar raha hai", "Bro sach mein kitchen mein khana bana raha hai", "Bro game haar raha hai", "Bro so raha hai"],
+            answer: "Bro kuch bohot kamaal ya exceptional cheez create/perform kar raha hai",
+            isOpinion: false
         },
         {
-            id: 402,
-            question: "2000 se 2026 tak ka sab se bara tech revolution kya hai?",
-            options: ["Smartphones", "Artificial Intelligence", "Crypto Currency", "High Speed Internet"],
-            isOpinion: true
-        }
-    ],
-    "emoji-quiz": [
+            id: "s2",
+            question: "Hack The Box (HTB) platform par penetration testers kis activity ko primarily scale karne ke liye time spend karte hain?",
+            options: ["Gamified Virtual Labs mein targeted machines hack karke flags capture karna", "Steam games free download karna", "Graphic designing templates sale karna", "Social media accounts auto-follow karna"],
+            answer: "Gamified Virtual Labs mein targeted machines hack karke flags capture karna",
+            isOpinion: false
+        },
         {
-            id: 501,
-            question: "Is Pakistani Song ko guess karein: 👁️ + 👄 + 👁️ (Eye Contact Expression)",
-            options: ["Afreen Afreen", "Billo De Ghar", "Tajdar-e-Haram", "Passori"],
-            answer: "Afreen Afreen"
-        }
-    ],
-    "guess-movie": [
+            id: "s3",
+            question: "Gen Z streaming community mein 'W' aur 'L' terms ka actual structural translation kya banta hai?",
+            options: ["W = Win (Success) & L = Loss (Failure)", "W = Working & L = Lazy", "W = Wrong & L = Validated", "W = Waste & L = Legend"],
+            answer: "W = Win (Success) & L = Loss (Failure)",
+            isOpinion: false
+        },
         {
-            id: 601,
-            question: "Identify the action movie with cars falling out of planes:",
-            options: ["Fast and Furious 7", "Mission Impossible", "John Wick", "Die Hard"],
-            answer: "Fast and Furious 7"
-        }
-    ],
-    "guess-song": [
+            id: "s4",
+            question: "Discord application par 'Server Boosting' karne se users ko primary advantages kya milte hain?",
+            options: ["Audio quality enhancement, custom emojis slots, aur layout perks unlock hona", "Internet speed double ho jana", "PC ka graphics processing automatically upgrade hona", "YouTube advertisements skip ho jana"],
+            answer: "Audio quality enhancement, custom emojis slots, aur layout perks unlock hona",
+            isOpinion: false
+        },
         {
-            id: 701,
-            question: "'Tu jhoom jhoom jhoom' kis mashoor platform ka track hai?",
-            options: ["Coke Studio", "Nescafe Basement", "Suno AI", "Nafay Labs Originals"],
-            answer: "Coke Studio"
-        }
-    ],
-    "iq-challenge": [
-        {
-            id: 801,
-            question: "Complete the pattern sequence framework logically: 2, 4, 8, 16, ?",
-            options: ["20", "24", "32", "64"],
-            answer: "32"
-        }
-    ],
-    "impossible-choices": [
-        {
-            id: 901,
-            question: "Would You Rather: Hamesha ke liye internet band ho jaye YA hamesha ke liye fast food band ho jaye?",
-            options: ["No Internet", "No Fast Food"],
+            id: "s5",
+            question: "Aapke mutabiq, modern competitive gaming runs mein clutch moments win karne ke liye sabse important metric kya hai?",
+            options: ["Absolute Focus & Dynamic Mindset Control", "High-End RGB Lighting Layouts", "In-Game Premium Character Skins", "Music playlists running in background"],
+            answer: "Absolute Focus & Dynamic Mindset Control",
             isOpinion: true
         }
     ],
-    "personality-quiz": [
+    "urdu-vibes": [
         {
-            id: 1001,
-            question: "Mushkil situation mein ap ka dimaag sab se pehle kya sochta hai?",
-            options: ["Fight back krna hai", "Bhaag nikalna hai", "Kisi dost se help leni hai", "Chill rhena hai"],
+            id: "u1",
+            question: "Social media par mashhoor meme phrase 'Yeh Tune Kya Kia' basic contextually kis moment par apply kiya jata hai?",
+            options: ["Jab koi achanak unexpected blunder ya koi funny mistake kar bethe", "Jab koi bohot bara technical system build kare", "Exam top karne ki khushi mein", "Trading mein profit earn karte waqt"],
+            answer: "Jab koi achanak unexpected blunder ya koi funny mistake kar bethe",
+            isOpinion: false
+        },
+        {
+            id: "u2",
+            question: "Pakistani rap music ecosystem mein underground artist tracks par 'SEO-optimized description strings' kyun use kiye jaate hain?",
+            options: ["YouTube algorithm search updates mein algorithms ranking expand karne ke liye", "Song ki file size compress karne ke liye", "Audio track ko re-master karne ke liye", "Lyrics auto-translate karne ke liye"],
+            answer: "YouTube algorithm search updates mein algorithms ranking expand karne ke liye",
+            isOpinion: false
+        },
+        {
+            id: "u3",
+            question: "Desi Internet culture mein '1 THEK THEK' expression sabsay zyada kis state layer ko organically simulate karta hai?",
+            options: ["Absolute dynamic confirmation (Perfect agreement / Shabaash vibe)", "System loading errors", "Gusse ka izhaar karna", "Sone ki tayari karna"],
+            answer: "Absolute dynamic confirmation (Perfect agreement / Shabaash vibe)",
+            isOpinion: false
+        },
+        {
+            id: "u4",
+            question: "Agar koi student online classes ya technical fields seekhte waqt apne mentor ko 'Trading Sir' keh kar professionally communication maintain karta hai, to yeh kis approach ko darshata hai?",
+            options: ["Professional Mentor-Guided Financial Skill Learning Layout", "Casual Online Gaming Lobby Chat", "Social Media Follower Campaign", "Random Group Interaction Mode"],
+            answer: "Professional Mentor-Guided Financial Skill Learning Layout",
+            isOpinion: false
+        },
+        {
+            id: "u5",
+            question: "Aapke khayal mein, modern rap projects ko global dynamic status dilane ke liye sabse solid dynamic core parameter kya hona chahiye?",
+            options: ["Authentic Rap Lyrics & Real Hustle Energy", "High-End Paid Production Promotions", "Expensive Studio Microphone Visuals", "Artificial Fake Social Views Hype"],
+            answer: "Authentic Rap Lyrics & Real Hustle Energy",
             isOpinion: true
         }
     ]
 };
-
-// Complete Metadata Registry Mapping for Frontend Rendering Loop
-const categoriesRegistry = [
-    { id: "mcqs", name: "MCQS Challenge", count: 4, icon: "fa-list-check" },
-    { id: "favorites", name: "YOUR FAVORITES", count: 2, icon: "fa-heart" },
-    { id: "long-questions", name: "LONG QUESTIONS", count: 1, icon: "fa-file-lines" },
-    { id: "puzzles", name: "PUZZLES & MYSTERIES", count: 1, icon: "fa-puzzle-piece" },
-    { id: "freedom", name: "FREEDOM ALL IN ONE", count: 2, icon: "fa-shuffle" },
-    { id: "emoji-quiz", name: "Emoji Quiz Hub", count: 1, icon: "fa-face-smile-wink" },
-    { id: "guess-movie", name: "Guess the Movie", count: 1, icon: "fa-film" },
-    { id: "guess-song", name: "Guess the Song", count: 1, icon: "fa-music" },
-    { id: "iq-challenge", name: "IQ Elite Challenge", count: 1, icon: "fa-brain" },
-    { id: "impossible-choices", name: "Impossible Choices", count: 1, icon: "fa-triangle-exclamation" },
-    { id: "personality-quiz", name: "Personality Evaluation", count: 1, icon: "fa-id-card" }
-];
