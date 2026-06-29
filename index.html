@@ -4,100 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GEN Z ERA | The Era of 2000-2026</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Architecture Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-mode">
+
+    <!-- Moving Aura RGB Background Effects -->
     <div class="rgb-blur-1"></div>
     <div class="rgb-blur-2"></div>
 
-    <div id="loading-screen" class="loading-screen">
-        <div class="loader"></div>
-        <h2 class="glow-text">LOADING GEN Z ERA...</h2>
+    <!-- Global Interactive Loading Screen -->
+    <div id="loading-screen" class="loading-overlay">
+        <div class="loader-content">
+            <h1 class="logo-text pulse-animation">LOADING GEN Z ERA...</h1>
+            <div class="loader-bar-wrap">
+                <div class="loader-bar-fill"></div>
+            </div>
+        </div>
     </div>
 
-    <audio id="sound-click" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" preload="auto"></audio>
-    <audio id="sound-correct" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-84.wav" preload="auto"></audio>
-    <audio id="sound-wrong" src="https://assets.mixkit.co/active_storage/sfx/959/959-84.wav" preload="auto"></audio>
-    <audio id="sound-finish" src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" preload="auto"></audio>
-
-    <header class="glass-panel header-main">
-        <div class="header-logo-zone">
+    <!-- Main Navigation Header -->
+    <header class="header-main glass-panel">
+        <div class="header-logo-section">
             <h1 class="logo-text">GEN Z ERA</h1>
-            <p class="subtitle-text">The Era of 2000–2026</p>
+            <span class="subtitle-text">The Era of 2000-2026</span>
         </div>
         <div class="header-controls">
             <div class="search-bar-container">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" id="global-search" placeholder="Search categories...">
+                <input type="text" id="global-search" placeholder="Search evaluation nodes...">
             </div>
-            <button id="btn-mute" class="control-btn" title="Toggle Sound"><i class="fas fa-volume-up"></i></button>
-            <button id="btn-theme" class="control-btn" title="Toggle Mode"><i class="fas fa-moon"></i></button>
-            <button id="btn-help" class="control-btn"><i class="fas fa-question-circle"></i> Help</button>
-            <button id="btn-auth" class="action-btn-premium"><i class="fas fa-user-astronaut"></i> <span id="auth-btn-text">Sign In</span></button>
+            <button id="btn-mute" class="control-btn" title="Toggle Audio Engine">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <button id="btn-theme" class="control-btn" title="Toggle Theme Engine">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button id="btn-help" class="control-btn">
+                <i class="fas fa-question-circle"></i> Help
+            </button>
+            <button id="btn-auth" class="action-btn-premium">
+                <i class="fas fa-shield-alt"></i> <span id="auth-btn-text">Sign In</span>
+            </button>
         </div>
     </header>
 
+    <!-- Main Workspace Grid Framework Split -->
     <main class="main-layout">
         
+        <!-- Sidebar Elements Layout (Left) -->
         <aside class="sidebar-left">
-            <div class="glass-panel profile-card">
+            
+            <!-- Dynamic User Profile Panel Card -->
+            <section class="profile-card glass-panel">
                 <div class="profile-header">
-                    <div class="avatar-glow"><i class="fas fa-user-shield"></i></div>
-                    <div>
-                        <h3 id="profile-name">Guest User</h3>
+                    <div class="avatar-glow">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                    <div class="profile-meta">
+                        <h3 id="profile-name">Guest Player</h3>
                         <span id="profile-rank" class="rank-badge bronze">Bronze</span>
                     </div>
                 </div>
                 <div class="profile-stats">
-                    <div class="stat-box"><h5>Score</h5><p id="stat-score">0</p></div>
-                    <div class="stat-box"><h5>Rank</h5><p id="stat-rank-title">Bronze</p></div>
+                    <div class="stat-box">
+                        <h5>TOTAL XP</h5>
+                        <p id="stat-score">0</p>
+                    </div>
+                    <div class="stat-box">
+                        <h5>RANK TIER</h5>
+                        <p id="stat-rank-title">Bronze</p>
+                    </div>
                 </div>
-                <div id="auth-status-tag" class="auth-tag">Not Signed In</div>
-            </div>
+                <p id="auth-status-tag" class="auth-tag">Not Signed In (Local Profile Mode)</p>
+            </section>
 
-            <div class="glass-panel leaderboard-card">
-                <h3><i class="fas fa-crown gold-text"></i> Top Players</h3>
+            <!-- Real-Time Secure Leaderboards System -->
+            <section class="leaderboard-card glass-panel">
+                <h3><i class="fas fa-crown"></i> Top Players</h3>
                 <div class="leaderboard-tabs">
                     <button class="tab-btn active" onclick="switchLeaderboard('all')">All-Time</button>
                     <button class="tab-btn" onclick="switchLeaderboard('daily')">Daily</button>
                 </div>
                 <div id="leaderboard-list" class="leaderboard-rows">
-                    </div>
-            </div>
+                    <!-- Dynamic Rows Injected via JS -->
+                </div>
+            </section>
         </aside>
 
+        <!-- Main Content Viewport View Controllers (Right) -->
         <section class="content-viewport">
             
+            <!-- VIEW 1: HOME DASHBOARD -->
             <div id="view-home" class="app-view active">
-                <div id="daily-challenge-banner" class="glass-panel daily-banner glow-border-rgb">
+                
+                <!-- Daily Challenge Showroom Row Card -->
+                <div class="daily-banner glass-panel glow-border-rgb">
                     <div class="daily-info">
-                        <span class="pulse-tag">DAILY</span>
+                        <div class="avatar-glow" style="background: linear-gradient(45deg, #ff007f, #ffea00);">
+                            <i class="fas fa-bolt"></i>
+                        </div>
                         <div>
-                            <h4>Daily Randomized Challenge</h4>
-                            <p>Mix testing combo updated daily. Complete to get high ranking scores!</p>
+                            <h2>Daily Randomized Challenge</h2>
+                            <p class="view-subheading">Mix testing combo updated daily. Complete to get high ranking scores!</p>
                         </div>
                     </div>
+                    <span class="pulse-tag">DAILY ACTIVE</span>
                     <button id="btn-start-daily" class="action-btn-premium">Play Now</button>
                 </div>
 
+                <!-- Structured Categories Systematic Grid Rows -->
                 <div class="section-title-wrap">
-                    <h2 class="view-heading">THIS ERA TRENDS</h2>
-                    <p class="view-subheading">This website is made for Question & Answer, IQ Tests, Knowledge, Entertainment and Fun.</p>
+                    <h2>System Evaluation Nodes</h2>
+                    <p class="view-subheading">Select a specific category sequence to test your ultimate 2000-2026 subculture profile metrics.</p>
                 </div>
-
+                
                 <div id="categories-container" class="categories-list">
-                    </div>
+                    <!-- Injected rows via UI Grid Template Logic -->
+                </div>
             </div>
 
+            <!-- VIEW 2: ACTIVE QUIZ VIEWPORT CONTAINER -->
             <div id="view-quiz" class="app-view">
-                <div class="glass-panel quiz-header-panel">
+                <div class="quiz-header-panel glass-panel">
                     <div class="quiz-meta">
-                        <span id="quiz-category-title" class="category-badge">Category</span>
+                        <span id="quiz-category-title" class="category-badge">Evaluation Category</span>
                         <div class="quiz-counters">
-                            <span>Question: <b id="current-q-num">1</b>/<b id="total-q-num">10</b></span>
-                            <span>Score: <b id="live-score">0</b></span>
+                            <span>Question: <b id="current-q-num">0</b>/<b id="total-q-num">0</b></span>
+                            <span>Live XP: <b id="live-score" style="color: var(--neon-blue);">0</b></span>
                         </div>
                     </div>
                     <div class="progress-track">
@@ -105,139 +144,134 @@
                     </div>
                 </div>
 
-                <div class="quiz-body-layout">
-                    <div class="glass-panel question-box">
-                        <div class="timer-container">
-                            <svg class="timer-svg" viewBox="0 0 100 100">
-                                <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
-                                <circle id="timer-progress" class="timer-fill" cx="50" cy="50" r="45"></circle>
-                            </svg>
-                            <span id="timer-text" class="timer-countdown-val">30</span>
-                        </div>
-                        <h3 id="question-text-display" class="question-title">Question text goes here in Roman Urdu?</h3>
+                <!-- Live Evaluation Processing Area -->
+                <div class="question-box glass-panel">
+                    <!-- Circular Countdown SVG Progress Timer -->
+                    <div class="timer-container">
+                        <svg class="timer-svg" viewBox="0 0 100 100">
+                            <circle class="timer-bg-circle" cx="50" cy="50" r="45"></circle>
+                            <circle id="timer-progress" class="timer-progress-circle" cx="50" cy="50" r="45"></circle>
+                        </svg>
+                        <div id="timer-text" class="timer-countdown-value">30</div>
                     </div>
-
-                    <div id="options-grid" class="options-container">
-                        </div>
-
-                    <div id="long-scroll-hint" class="scroll-hint hidden">
-                        <i class="fas fa-arrows-alt-v"></i> Scroll options down if needed
-                    </div>
+                    <h2 id="question-text-display" style="margin-top: 20px;">Question text string loader updating dynamically?</h2>
+                    <p id="long-scroll-hint" class="hidden-element" style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;"><i class="fas fa-mouse-pointer"></i> Scroll to view all answers</p>
                 </div>
 
-                <div class="quiz-footer-nav">
-                    <button id="quiz-btn-home" class="control-btn"><i class="fas fa-home"></i> Home</button>
-                    <button id="quiz-btn-prev" class="control-btn"><i class="fas fa-chevron-left"></i> Prev</button>
-                    <button id="quiz-btn-skip" class="control-btn">Skip <i class="fas fa-forward"></i></button>
-                    <button id="quiz-btn-next" class="action-btn-premium disabled" disabled>Next <i class="fas fa-chevron-right"></i></button>
-                    <button id="quiz-btn-submit" class="action-btn-premium hidden-element">Submit Run</button>
+                <!-- Absolute Grid Answers Split Node Options Layout -->
+                <div id="options-grid" class="options-layout-grid">
+                    <!-- Option node elements injected cleanly -->
+                </div>
+
+                <!-- Operational Actions Navigation Menu -->
+                <div class="quiz-footer-actions">
+                    <button id="quiz-btn-home" class="control-btn"><i class="fas fa-home"></i> Abort Run</button>
+                    <div class="right-actions-cluster">
+                        <button id="quiz-btn-skip" class="control-btn"><i class="fas fa-forward"></i> Skip Item</button>
+                        <button id="quiz-btn-next" class="action-btn-premium disabled" disabled>Next Question <i class="fas fa-arrow-right"></i></button>
+                        <button id="quiz-btn-submit" class="action-btn-premium hidden-element" style="background: linear-gradient(90deg, #39ff14, #00f0ff); box-shadow: 0 4px 15px rgba(0,240,255,0.3); color: black;">Finalize Metrics <i class="fas fa-check-circle"></i></button>
+                    </div>
                 </div>
             </div>
 
+            <!-- VIEW 3: FINAL METRICS CALCULATION RESULTS OVERLAY -->
             <div id="view-results" class="app-view">
-                <div class="glass-panel result-card-main text-center">
-                    <div class="confetti-anchor"></div>
-                    <h2 class="glow-text main-result-title">COMPLETED!</h2>
-                    <p id="result-message" class="performance-msg">Excellent performance across the platform metrics!</p>
+                <div class="result-card glass-panel glow-border-rgb" style="text-align: center; padding: 50px 30px;">
+                    <div class="avatar-glow" style="width: 90px; height: 90px; font-size: 2.5rem; margin: 0 auto 24px auto;">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h1 style="font-size: 2.8rem; margin-bottom: 8px;">Run Complete</h1>
+                    <p id="result-message" style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 32px auto;">Evaluating your execution profile vectors into ecosystem databases.</p>
                     
-                    <div class="rank-promotion-display">
-                        <span class="small-label">YOUR NEW SYSTEM RANK</span>
-                        <h1 id="result-rank" class="rank-text-highlight">DIAMOND</h1>
+                    <!-- Analytics Grid Numbers Data Map Breakdown -->
+                    <div class="metrics-grid-summary">
+                        <div class="metric-node">
+                            <h3>Total XP</h3>
+                            <p id="res-score" style="color: var(--neon-blue);">0</p>
+                        </div>
+                        <div class="metric-node">
+                            <h3>Accuracy</h3>
+                            <p id="res-percent" style="color: var(--neon-green);">0%</p>
+                        </div>
+                        <div class="metric-node">
+                            <h3>Correct</h3>
+                            <p id="res-correct">0</p>
+                        </div>
+                        <div class="metric-node">
+                            <h3>Wrong</h3>
+                            <p id="res-wrong" style="color: var(--neon-red);">0</p>
+                        </div>
+                        <div class="metric-node">
+                            <h3>Skipped</h3>
+                            <p id="res-skipped">0</p>
+                        </div>
+                        <div class="metric-node">
+                            <h3>Rank Earned</h3>
+                            <p id="result-rank" style="font-size: 1.1rem; font-weight: 700; text-transform: uppercase; padding-top: 6px;">Bronze</p>
+                        </div>
                     </div>
 
-                    <div class="metrics-grid">
-                        <div class="metric-block"><span class="metric-val" id="res-score">0</span><span class="metric-lbl">Total Score</span></div>
-                        <div class="metric-block correct-bg"><span class="metric-val" id="res-correct">0</span><span class="metric-lbl">Correct</span></div>
-                        <div class="metric-block wrong-bg"><span class="metric-val" id="res-wrong">0</span><span class="metric-lbl">Wrong</span></div>
-                        <div class="metric-block skipped-bg"><span class="metric-val" id="res-skipped">0</span><span class="metric-lbl">Skipped</span></div>
-                        <div class="metric-block"><span class="metric-val" id="res-percent">0%</span><span class="metric-lbl">Accuracy</span></div>
-                    </div>
-
-                    <div class="result-action-footer">
-                        <button id="res-btn-restart" class="action-btn-premium"><i class="fas fa-redo"></i> Play Again</button>
-                        <button id="res-btn-home" class="control-btn"><i class="fas fa-home"></i> Back Home</button>
-                        <button id="res-btn-copy" class="control-btn"><i class="fas fa-copy"></i> Copy Score</button>
+                    <div class="result-action-controls" style="display: flex; justify-content: center; gap: 16px; margin-top: 16px;">
+                        <button id="res-btn-home" class="control-btn"><i class="fas fa-home"></i> Home View</button>
+                        <button id="res-btn-restart" class="control-btn"><i class="fas fa-redo"></i> Retry Node</button>
+                        <button id="res-btn-copy" class="action-btn-premium"><i class="fas fa-share-alt"></i> Share Certificate Profile String</button>
                     </div>
                 </div>
             </div>
-
         </section>
     </main>
 
+    <!-- SYSTEM LAYER SECURITY OVERLAY MODALS WINDOWS -->
+    
+    <!-- MODAL 1: AUTH SECURE SYNC ENTRY FORM -->
     <div id="modal-auth" class="modal-overlay hidden-element">
-        <div class="glass-panel modal-box text-center">
-            <button class="close-modal-x" onclick="closeModal('modal-auth')">&times;</button>
-            <div class="modal-icon-header"><i class="fas fa-shield-halved rgb-text-glow"></i></div>
-            <h2>Premium Sign In</h2>
-            <p class="modal-subtitle">Enter your official Gmail account to link your cloud ranks.</p>
-            
-            <div class="input-group-premium">
-                <input type="email" id="auth-email-input" placeholder="example@gmail.com" autocomplete="off">
-                <span class="input-focus-line"></span>
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-shield"></i> Cloud Sync Identity Profile</h2>
+                <i class="fas fa-times close-icon" onclick="closeModal('modal-auth')"></i>
             </div>
-            <p id="auth-error-msg" class="error-text hidden-element">Please provide a valid account ending with @gmail.com</p>
-            
-            <button id="auth-submit-action" class="action-btn-premium full-width">Verify Authenticity</button>
-            <div id="ai-verification-badge" class="ai-verify-tag hidden-element">
-                <i class="fas fa-circle-check"></i> Verified by AI Pro
+            <div class="modal-body" style="padding-top: 16px;">
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">Enter your absolute secure Google parameter credentials to sync XP data directly across Malik Nafay Labs database nodes.</p>
+                <div class="input-form-row">
+                    <label>Google Verification Parameter Address (@gmail.com only)</label>
+                    <input type="email" id="auth-email-input" placeholder="example@gmail.com">
+                    <p id="auth-error-msg" class="error-text hidden-element"><i class="fas fa-exclamation-triangle"></i> Syntax Error: Match must enforce a precise lower-case Google identity matrix string.</p>
+                </div>
+                <!-- Interactive Simulated AI Security Verification Sequence Badge -->
+                <div id="ai-verification-badge" class="ai-sync-badge hidden-element">
+                    <i class="fas fa-circle-notch fa-spin"></i> Initializing System Validation Sequence Verification Engine Layer...
+                </div>
+                <button id="auth-submit-action" class="action-btn-premium" style="width: 100%; margin-top: 12px;">Authorize & Link Session</button>
             </div>
         </div>
     </div>
 
+    <!-- MODAL 2: INTERACTION INSTRUCTION MANUAL SYSTEM LAYERHELP -->
     <div id="modal-help" class="modal-overlay hidden-element">
-        <div class="glass-panel modal-box large-modal">
-            <button class="close-modal-x" onclick="closeModal('modal-help')">&times;</button>
-            <h2>Help Desk & Information Center</h2>
-            <hr class="separator-line">
-            
-            <div class="help-scroll-area">
-                <h4>About Gen Z Era Website</h4>
-                <p>An elite, premium gamified platform handling trends, IQ metrics, and cultural choices built for high performance and low-latency entertainment evaluation tracking options across the 2000–2026 timelines.</p>
-                
-                <h4>Privacy Policy</h4>
-                <p>Data processing parameters are stored directly on the internal local machine cluster (Local Storage). Zero external track footprints are captured.</p>
-
-                <h4>Developer Framework Identity</h4>
-                <p>Designed and architecture engineered under premium operational guidelines by <b>Malik Nafay Labs</b>.</p>
-
-                <h4>Contact & Communications</h4>
-                <p>For technical infrastructure requests or production engineering audits, communicate via our community networks listed below.</p>
-                
-                <h4>Nafay Labs Matrix Network Ecosystem Links</h4>
-                <div class="links-cards-grid">
-                    <a href="https://whatsapp.com/channel/0029Vb8Z5szGOj9wNBebrQ2U" target="_blank" class="link-card-anchor">
-                        <div class="link-card"><i class="fab fa-whatsapp"></i><span>WhatsApp Channel</span></div>
-                    </a>
-                    <a href="https://maliknafaytop10.github.io/ELEVEN-PRO-/" target="_blank" class="link-card-anchor">
-                        <div class="link-card"><i class="fas fa-globe"></i><span>Website Portfolio</span></div>
-                    </a>
-                    <a href="https://maliknafaytop10.github.io/the-ultimate-song/" target="_blank" class="link-card-anchor">
-                        <div class="link-card"><i class="fas fa-music"></i><span>Music Catalog</span></div>
-                    </a>
-                    <a href="https://maliknafaytop10.github.io/POETS-WRITES/" target="_blank" class="link-card-anchor">
-                        <div class="link-card"><i class="fas fa-pen-fancy"></i><span>Poet Works Portfolio</span></div>
-                    </a>
-                    <a href="https://maliknafaytop10.github.io/NAFAY-WRITE/" target="_blank" class="link-card-anchor">
-                        <div class="link-card"><i class="fas fa-book"></i><span>Creative Database</span></div>
-                    </a>
-                </div>
-
-                <h4>Social Presence Hub Icons</h4>
-                <div class="social-icons-row">
-                    <a href="https://www.tiktok.com/@pakpattan123" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i> @pakpattan123</a>
-                    <a href="https://www.instagram.com/maliknafay321" target="_blank" title="Instagram"><i class="fab fa-instagram"></i> @maliknafay321</a>
-                    <a href="https://x.com/falconlabs_official" target="_blank" title="X Desktop Platform"><i class="fab fa-x-twitter"></i> @falconlabs_official</a>
-                    <a href="https://www.snapchat.com/add/nafaypakpattan1" target="_blank" title="Snapchat System Link"><i class="fab fa-snapchat"></i> nafaypakpattan1</a>
-                    <a href="#" target="_blank" title="Threads Network"><i class="fab fa-threads"></i> Threads Connected</a>
-                </div>
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> System Operations Matrix</h2>
+                <i class="fas fa-times close-icon" onclick="closeModal('modal-help')"></i>
             </div>
-            
-            <footer class="modal-footer-credits">
-                <p>System Engine Framework: Developed by Malik Nafay Labs</p>
-            </footer>
+            <div class="modal-body" style="padding-top: 16px; display: flex; flex-direction: column; gap: 14px;">
+                <p>Welcome to <b>GEN Z ERA Quiz Ecosystem Architecture</b>. Understand execution vectors accurately:</p>
+                <ul>
+                    <li><b>Absolute Truth Nodes:</b> Correct selection awards <b>+20 XP</b>. Invalid selections highlight validation boundaries immediately.</li>
+                    <li><b>Opinion Evaluation Matrix:</b> Inherently uniform parameters. Every selection scales <b>+10 XP</b> into your personal profile database storage arrays.</li>
+                    <li><b>Circular Timers Countdown System:</b> 30 seconds absolute limit per item. Running out triggers auto-advancement tracking matrices cleanly.</li>
+                </ul>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border-glass); padding-top: 10px;">Engine Architecture Framework Developed under Malik Nafay Systems Engine Central Core Ecosystem Hub.</p>
+            </div>
         </div>
     </div>
 
+    <!-- Hidden Sound FX Buffers -->
+    <audio id="sound-click" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" preload="auto"></audio>
+    <audio id="sound-correct" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-84.wav" preload="auto"></audio>
+    <audio id="sound-wrong" src="https://assets.mixkit.co/active_storage/sfx/951/951-84.wav" preload="auto"></audio>
+    <audio id="sound-finish" src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" preload="auto"></audio>
+
+    <!-- Runtime Engine Core Initializers -->
     <script src="questions.js"></script>
     <script src="script.js"></script>
 </body>
