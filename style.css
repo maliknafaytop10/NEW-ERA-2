@@ -1,521 +1,326 @@
-/* =======================================================
-   GEN Z ERA - MAIN ARCHITECTURE & STATE RUNTIME ENGINE
-   ======================================================= */
+/* ==========================================================
+   GEN Z ERA - SYSTEM DESIGN PREMIUM RESPONSIVE STYLESHEET
+   ========================================================== */
 
-// Global App State Configuration
-let state = {
-    userEmail: null,
-    isAuthenticated: false,
-    currentCategory: null,
-    currentQuestionsArray: [],
-    currentQuestionIndex: 0,
-    score: 0,
-    correctCount: 0,
-    wrongCount: 0,
-    skippedCount: 0,
-    answersHistory: {}, // For storing opinion choices or execution maps
-    timerInterval: null,
-    timerSecondsRemaining: 30,
-    isMuted: false,
-    allTimeLeaderboard: [],
-    dailyLeaderboard: []
-};
-
-// Initialization entry point
-document.addEventListener("DOMContentLoaded", () => {
-    loadSavedStateFromStorage();
-    initDOMEvents();
-    renderCategoriesGrid(categoriesRegistry);
-    updateProfileUIDisplay();
-    hideLoadingScreen();
-});
-
-function hideLoadingScreen() {
-    setTimeout(() => {
-        const loader = document.getElementById("loading-screen");
-        if(loader) {
-            loader.style.opacity = "0";
-            setTimeout(() => loader.classList.add("hidden-element"), 500);
-        }
-    }, 1200);
-}
-
-// Local Storage Handlers
-function loadSavedStateFromStorage() {
-    state.userEmail = localStorage.getItem("gze_email");
-    state.isAuthenticated = !!state.userEmail;
-    state.score = parseInt(localStorage.getItem("gze_total_score")) || 0;
-    state.isMuted = localStorage.getItem("gze_muted") === "true";
+:root {
+    --bg-dark-absolute: #050508;
+    --bg-glass: rgba(13, 13, 22, 0.65);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3cc;
     
-    // Fallback seed data for professional Leaderboards configuration
-    const defaultAllTime = [
-        { name: "Malik Nafay Pro", score: 2500, rank: "Grand Master" },
-        { name: "Alpha_Falcon", score: 1850, rank: "Master" },
-        { name: "Z-ByteCoder", score: 1200, rank: "Diamond" }
-    ];
-    const defaultDaily = [
-        { name: "Alpha_Falcon", score: 320, rank: "Master" },
-        { name: "Guest_8932", score: 110, rank: "Silver" }
-    ];
-
-    state.allTimeLeaderboard = JSON.parse(localStorage.getItem("gze_lb_all")) || defaultAllTime;
-    state.dailyLeaderboard = JSON.parse(localStorage.getItem("gze_lb_daily")) || defaultDaily;
+    /* Neon Status Profiles */
+    --neon-green: #39ff14;
+    --neon-red: #ff3131;
+    --neon-blue: #00ffff;
     
-    // Inject self score into leaderboards array securely if logged in
-    syncUserInLeaderboards();
+    /* RGB Gradient Cluster */
+    --rgb-gradient: linear-gradient(45deg, #ff007f, #7f00ff, #00f0ff, #00ff7f, #ffea00, #ff007f);
+    --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-function syncUserInLeaderboards() {
-    if (state.isAuthenticated) {
-        const nameTag = state.userEmail.split("@")[0];
-        const currentRank = calculateRankTitle(state.score);
-        
-        let existingUser = state.allTimeLeaderboard.find(p => p.name === nameTag);
-        if (existingUser) {
-            if(state.score > existingUser.score) {
-                existingUser.score = state.score;
-                existingUser.rank = currentRank;
-            }
-        } else {
-            state.allTimeLeaderboard.push({ name: nameTag, score: state.score, rank: currentRank });
-        }
-        state.allTimeLeaderboard.sort((a,b) => b.score - a.score);
-        localStorage.setItem("gze_lb_all", JSON.stringify(state.allTimeLeaderboard));
-    }
+/* Light Mode System Variable Remaps */
+body.light-mode {
+    --bg-dark-absolute: #f4f5f9;
+    --bg-glass: rgba(255, 255, 255, 0.8);
+    --border-glass: rgba(0, 0, 0, 0.08);
+    --text-primary: #121214;
+    --text-secondary: #525266;
 }
 
-function saveGlobalScoreProgress() {
-    localStorage.setItem("gze_total_score", state.score);
-    syncUserInLeaderboards();
-    updateProfileUIDisplay();
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    user-select: none;
 }
 
-// UI Rendering Engine
-function renderCategoriesGrid(categories) {
-    const container = document.getElementById("categories-container");
-    container.innerHTML = "";
-
-    categories.forEach(cat => {
-        const row = document.createElement("div");
-        row.className = "glass-panel category-row-card";
-        row.setAttribute("data-cat-id", cat.id);
-        row.innerHTML = `
-            <div class="cat-left-info">
-                <i class="fas ${cat.icon} cat-big-icon"></i>
-                <div class="cat-details">
-                    <h3>${cat.name}</h3>
-                    <p>${cat.count} Systematic Evaluation Items</p>
-                </div>
-            </div>
-            <i class="fas fa-chevron-right cat-right-arrow"></i>
-        `;
-        
-        // Setup Event Listeners dynamically
-        row.addEventListener("click", () => {
-            triggerAudioFeedback("click");
-            startQuizCategory(cat.id);
-        });
-        container.appendChild(row);
-    });
+body {
+    background-color: var(--bg-dark-absolute);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+    transition: background-color 0.4s ease;
 }
 
-function updateProfileUIDisplay() {
-    const nameDisplay = document.getElementById("profile-name");
-    const rankDisplay = document.getElementById("profile-rank");
-    const rankTitleDisplay = document.getElementById("stat-rank-title");
-    const scoreDisplay = document.getElementById("stat-score");
-    const authBtnText = document.getElementById("auth-btn-text");
-    const authTag = document.getElementById("auth-status-tag");
+/* Moving Aura RGB Background Effects */
+.rgb-blur-1, .rgb-blur-2 {
+    position: fixed;
+    width: 45vw;
+    height: 45vw;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(127,0,255,0.15), rgba(0,240,255,0.15));
+    filter: blur(120px);
+    z-index: -1;
+    pointer-events: none;
+    animation: floatingAura 18s infinite alternate ease-in-out;
+}
+.rgb-blur-1 { top: -10%; left: -10%; }
+.rgb-blur-2 { bottom: -10%; right: -10%; animation-delay: -9s; }
 
-    if (state.isAuthenticated) {
-        nameDisplay.innerText = state.userEmail.split("@")[0];
-        authBtnText.innerText = "Sign Out";
-        authTag.innerText = "Session Secure Cloud Sync Verified";
-    } else {
-        nameDisplay.innerText = "Guest Player";
-        authBtnText.innerText = "Sign In";
-        authTag.innerText = "Not Signed In (Local Profile Mode)";
-    }
-
-    const calculatedRank = calculateRankTitle(state.score);
-    rankDisplay.innerText = calculatedRank;
-    rankDisplay.className = `rank-badge ${calculatedRank.toLowerCase().replace(" ", "-")}`;
-    rankTitleDisplay.innerText = calculatedRank;
-    scoreDisplay.innerText = state.score;
-
-    renderLeaderboardsUI();
+@keyframes floatingAura {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(8%, 12%) scale(1.15); }
 }
 
-function calculateRankTitle(score) {
-    if (score >= 2000) return "Grand Master";
-    if (score >= 1500) return "Master";
-    if (score >= 1000) return "Heroic";
-    if (score >= 600) return "Diamond";
-    if (score >= 350) return "Platinum";
-    if (score >= 150) return "Gold";
-    if (score >= 50) return "Silver";
-    return "Bronze";
+/* Loading Overlay Systems Screen */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: #050508;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.loader-content { text-align: center; width: 320px; }
+.loader-bar-wrap { width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 20px; overflow: hidden; }
+.loader-bar-fill { width: 100%; height: 100%; background: var(--rgb-gradient); background-size: 400%; animation: loaderFillBar 1.2s ease forwards, rgbGlowMovement 3s linear infinite; }
+
+@keyframes loaderFillBar { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+/* Glassmorphism Structural Base Configuration */
+.glass-panel {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
-function renderLeaderboardsUI(type = "all") {
-    const targetList = document.getElementById("leaderboard-list");
-    targetList.innerHTML = "";
-    const currentList = (type === "all") ? state.allTimeLeaderboard : state.dailyLeaderboard;
-
-    currentList.forEach((player, index) => {
-        const row = document.createElement("div");
-        row.className = `lb-row ${index < 3 ? 'top-three' : ''}`;
-        row.innerHTML = `
-            <span><b>#${index + 1}</b> ${player.name} <small class="rank-badge ${player.rank.toLowerCase().replace(" ", "-")}">${player.rank}</small></span>
-            <b>${player.score} XP</b>
-        `;
-        targetList.appendChild(row);
-    });
+/* Header UI Elements */
+.header-main {
+    position: sticky;
+    top: 12px;
+    margin: 12px 24px;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
 }
 
-function switchLeaderboard(type) {
-    triggerAudioFeedback("click");
-    const tabs = document.querySelectorAll(".leaderboard-tabs .tab-btn");
-    tabs.forEach(t => t.classList.remove("active"));
-    if (event) event.target.classList.add("active");
-    renderLeaderboardsUI(type);
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #00ffff, #ff007f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(0,240,255,0.3));
 }
 
-// Core Event Handling Configuration Bindings
-function initDOMEvents() {
-    // Top Bar Actions
-    document.getElementById("btn-auth").addEventListener("click", handleAuthButtonTrigger);
-    document.getElementById("auth-submit-action").addEventListener("click", processAuthenticationForm);
-    document.getElementById("btn-help").addEventListener("click", () => openModal("modal-help"));
-    document.getElementById("btn-theme").addEventListener("click", toggleThemeEngine);
-    document.getElementById("btn-mute").addEventListener("click", toggleMuteEngine);
-    
-    // Live Search Feature Filter Input
-    document.getElementById("global-search").addEventListener("input", performLiveCategorySearch);
-
-    // Quiz Control Elements Action bindings
-    document.getElementById("quiz-btn-home").addEventListener("click", returnToHomeDashboardView);
-    document.getElementById("quiz-btn-next").addEventListener("click", advanceToNextQuestion);
-    document.getElementById("quiz-btn-skip").addEventListener("click", skipCurrentQuestion);
-    document.getElementById("quiz-btn-submit").addEventListener("click", evaluateFinalQuizRunRun);
-    
-    // Result Operations Controls
-    document.getElementById("res-btn-home").addEventListener("click", returnToHomeDashboardView);
-    document.getElementById("res-btn-restart").addEventListener("click", () => startQuizCategory(state.currentCategory));
-    document.getElementById("res-btn-copy").addEventListener("click", copyMetricsToClipboard);
-
-    document.getElementById("btn-start-daily").addEventListener("click", startDailyChallengeCombination);
+.subtitle-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-// Live Search logic tracking instantly
-function performLiveCategorySearch(e) {
-    const val = e.target.value.toLowerCase();
-    const filtered = categoriesRegistry.filter(c => c.name.toLowerCase().includes(val));
-    renderCategoriesGrid(filtered);
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
-// Audio Engine feedback handlers
-function triggerAudioFeedback(type) {
-    if (state.isMuted) return;
-    const soundEl = document.getElementById(`sound-${type}`);
-    if (soundEl) {
-        soundEl.currentTime = 0;
-        soundEl.play().catch(() => {});
-    }
+/* Inputs & Search Configuration */
+.search-bar-container { position: relative; display: flex; align-items: center; }
+.search-bar-container input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 30px;
+    padding: 10px 20px 10px 40px;
+    color: var(--text-primary);
+    outline: none;
+    transition: var(--transition-smooth);
+    width: 220px;
+}
+.search-bar-container input:focus { width: 300px; border-color: #00f0ff; box-shadow: 0 0 15px rgba(0,240,255,0.2); }
+.search-icon { position: absolute; left: 15px; color: var(--text-secondary); }
+
+/* Dynamic Controls & Button Systems */
+.control-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-smooth);
+}
+.control-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+
+.action-btn-premium {
+    background: linear-gradient(90deg, #7f00ff, #ff007f);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(255,0,127,0.3);
+}
+.action-btn-premium:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 20px rgba(255,0,127,0.5); }
+
+/* Main Workspace Grid Framework Split */
+.main-layout { display: grid; grid-template-columns: 320px 1fr; gap: 24px; margin: 12px 24px 24px 24px; }
+.sidebar-left { display: flex; flex-direction: column; gap: 24px; }
+.profile-card, .leaderboard-card { padding: 24px; }
+.profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+
+.avatar-glow {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #00f0ff, #7f00ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: white;
+    box-shadow: 0 0 15px rgba(0,240,255,0.4);
 }
 
-function toggleMuteEngine() {
-    state.isMuted = !state.isMuted;
-    localStorage.setItem("gze_muted", state.isMuted);
-    const icon = document.getElementById("btn-mute").querySelector("i");
-    icon.className = state.isMuted ? "fas fa-volume-mute" : "fas fa-volume-up";
+.rank-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-top: 4px; }
+.bronze { background: #cd7f32; color: #fff; }
+.silver { background: #c0c0c0; color: #333; }
+.gold { background: #ffd700; color: #333; }
+.platinum { background: #e5e4e2; color: #333; }
+.diamond { background: #b9f2ff; color: #333; box-shadow: 0 0 10px #b9f2ff; }
+.heroic { background: #ff1493; color: #fff; box-shadow: 0 0 10px #ff1493; }
+.master { background: #8a2be2; color: #fff; box-shadow: 0 0 15px #8a2be2; }
+.grand-master { background: linear-gradient(45deg, red, orange, yellow); color: black; font-weight:900; box-shadow: 0 0 20px rgba(255,69,0,0.8); }
+
+.profile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.stat-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 12px; border-radius: 8px; text-align: center; }
+.stat-box h5 { color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 4px;}
+.stat-box p { font-size: 1.2rem; font-weight: 700; }
+.auth-tag { font-size: 0.8rem; text-align: center; color: var(--text-secondary); }
+
+/* Leaderboards System Rows */
+.leaderboard-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 16px 0; }
+.tab-btn { background: transparent; border: 1px solid var(--border-glass); color: var(--text-secondary); padding: 8px; border-radius: 8px; cursor: pointer; }
+.tab-btn.active { background: rgba(255,255,255,0.1); color: var(--text-primary); border-color: #00ffff; }
+.leaderboard-rows { display: flex; flex-direction: column; gap: 10px; max-height: 300px; overflow-y: auto; }
+.lb-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.02); border-radius: 10px; border-left: 4px solid var(--border-glass); }
+.lb-row.top-three { border-left-color: #ffd700; background: rgba(255,215,0,0.05); }
+
+/* Main Content Views Area */
+.content-viewport { min-width: 0; }
+.app-view { display: none; animation: fadeInView 0.4s ease forwards; }
+.app-view.active { display: block; }
+
+@keyframes fadeInView { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Daily Challenge Showcase Row Card Banner */
+.daily-banner { display: flex; justify-content: space-between; align-items: center; padding: 24px; margin-bottom: 32px; position: relative; }
+.glow-border-rgb { position: relative; }
+.glow-border-rgb::after { content: ''; position: absolute; inset: -2px; border-radius: 18px; background: var(--rgb-gradient); z-index: -2; background-size: 400% 400%; animation: rgbGlowMovement 12s linear infinite; }
+
+@keyframes rgbGlowMovement { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+.daily-info { display: flex; align-items: center; gap: 16px; }
+.pulse-tag { background: var(--neon-red); color: black; font-weight: 700; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; animation: pulseGlow 1.5s infinite alternate; }
+
+@keyframes pulseGlow { 0% { box-shadow: 0 0 5px var(--neon-red); } 100% { box-shadow: 0 0 20px var(--neon-red); } }
+
+/* Category Structural Rectangle Row Blocks Configuration */
+.section-title-wrap { margin-bottom: 24px; }
+.view-subheading { color: var(--text-secondary); margin-top: 4px; }
+.categories-list { display: flex; flex-direction: column; gap: 16px; }
+.category-row-card { display: flex; justify-content: space-between; align-items: center; padding: 20px 32px; cursor: pointer; position: relative; overflow: hidden; transition: var(--transition-smooth); }
+.cat-left-info { display: flex; align-items: center; gap: 24px; }
+.cat-big-icon { font-size: 2rem; color: #00f0ff; transition: var(--transition-smooth); }
+.cat-details h3 { font-size: 1.4rem; }
+.cat-details p { color: var(--text-secondary); font-size: 0.9rem; }
+.cat-right-arrow { font-size: 1.4rem; color: var(--text-secondary); transition: var(--transition-smooth); }
+
+/* Premium Animations on Row Hovers */
+.category-row-card:hover { transform: scale(1.01) translateY(-3px); background: rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15); border-color: rgba(0, 240, 255, 0.4); }
+.category-row-card:hover .cat-big-icon { transform: rotate(-10deg) scale(1.2); color: #ff007f; filter: drop-shadow(0 0 8px #ff007f); }
+.category-row-card:hover .cat-right-arrow { transform: translateX(6px); color: white; }
+
+/* Core Quiz Structural Views Engine */
+.quiz-header-panel { padding: 20px; margin-bottom: 24px; }
+.quiz-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.category-badge { background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 30px; font-weight: 700; border: 1px solid var(--border-glass); }
+.quiz-counters { display: flex; gap: 20px; font-size: 1.1rem; }
+.progress-track { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #00f0ff, #ff007f); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* Question & Circular SVG Timers Systems */
+.question-box { padding: 40px; text-align: center; position: relative; margin-bottom: 24px; }
+.timer-container { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--bg-dark-absolute); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
+.timer-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.timer-bg-circle { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 6; }
+.timer-progress-circle { fill: none; stroke: var(--neon-blue); stroke-width: 6; stroke-dasharray: 283; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear; }
+.timer-countdown-value { position: absolute; font-size: 1.2rem; font-weight: 700; color: var(--text-primary); }
+
+/* Grid Layout for Option Buttons */
+.options-layout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+.option-node-item {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    padding: 20px 24px;
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition-smooth);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+.option-node-item:hover:not(.disabled) { background: rgba(255,255,255,0.08); border-color: #00f0ff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,240,255,0.1); }
 
-function toggleThemeEngine() {
-    triggerAudioFeedback("click");
-    const isDark = document.body.classList.toggle("dark-mode");
-    document.body.classList.toggle("light-mode", !isDark);
-    document.getElementById("btn-theme").querySelector("i").className = isDark ? "fas fa-moon" : "fas fa-sun";
-}
+/* Option Selection Status Handlers */
+.option-node-item.correct-state { background: rgba(57, 255, 20, 0.1) !important; border-color: var(--neon-green) !important; color: var(--neon-green) !important; font-weight: 700; box-shadow: 0 0 15px rgba(57,255,20,0.2); }
+.option-node-item.wrong-state { background: rgba(255, 49, 49, 0.1) !important; border-color: var(--neon-red) !important; color: var(--neon-red) !important; font-weight: 700; box-shadow: 0 0 15px rgba(255,49,49,0.2); }
+.option-node-item.disabled { cursor: not-allowed; opacity: 0.6; }
 
-// Modal View togglers
-function openModal(id) {
-    triggerAudioFeedback("click");
-    document.getElementById(id).classList.remove("hidden-element");
-}
+.quiz-footer-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-glass); padding-top: 24px; }
+.right-actions-cluster { display: flex; gap: 16px; }
+.control-btn.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
 
-function closeModal(id) {
-    document.getElementById(id).classList.add("hidden-element");
-}
+/* Metrics Calculation Summary Results Page Layout */
+.metrics-grid-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 700px; margin: 0 auto 32px auto; }
+.metric-node { background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); padding: 20px; border-radius: 12px; }
+.metric-node h3 { font-size: 0.9rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 6px; }
+.metric-node p { font-size: 2rem; font-weight: 700; }
 
-// Authentication Controller Processors
-function handleAuthButtonTrigger() {
-    triggerAudioFeedback("click");
-    if (state.isAuthenticated) {
-        // Handle explicit session log out
-        localStorage.removeItem("gze_email");
-        state.userEmail = null;
-        state.isAuthenticated = false;
-        updateProfileUIDisplay();
-    } else {
-        // Clear previous view state variables and present clean overlay interface
-        document.getElementById("auth-email-input").value = "";
-        document.getElementById("auth-error-msg").classList.add("hidden-element");
-        document.getElementById("ai-verification-badge").classList.add("hidden-element");
-        openModal("modal-auth");
-    }
-}
+/* Security Overlay Window Modals Configuration Layers */
+.modal-overlay { position: fixed; inset: 0; background: rgba(5,5,8,0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+.modal-window { width: 500px; padding: 32px; border-radius: 20px; position: relative; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 16px; }
+.close-icon { font-size: 1.2rem; color: var(--text-secondary); cursor: pointer; transition: color 0.2s; }
+.close-icon:hover { color: white; }
 
-function processAuthenticationForm() {
-    triggerAudioFeedback("click");
-    const emailInput = document.getElementById("auth-email-input").value.trim().toLowerCase();
-    
-    // Strict regular expression testing enforcing explicit Google domain matches ending with @gmail.com
-    const emailRegex = /^[a-z0-9._%+-]+@gmail\.com$/;
-    if (emailRegex.test(emailInput)) {
-        document.getElementById("auth-error-msg").classList.add("hidden-element");
-        const aiBadge = document.getElementById("ai-verification-badge");
-        aiBadge.classList.remove("hidden-element");
-        
-        setTimeout(() => {
-            localStorage.setItem("gze_email", emailInput);
-            state.userEmail = emailInput;
-            state.isAuthenticated = true;
-            closeModal("modal-auth");
-            updateProfileUIDisplay();
-        }, 1000);
-    } else {
-        document.getElementById("auth-error-msg").classList.remove("hidden-element");
-    }
-}
+.input-form-row { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.input-form-row label { font-size: 0.85rem; color: var(--text-secondary); }
+.input-form-row input { background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); padding: 12px 16px; border-radius: 10px; color: white; outline: none; font-size: 1rem; transition: border-color 0.2s; }
+.input-form-row input:focus { border-color: #00f0ff; }
+.error-text { color: var(--neon-red); font-size: 0.8rem; margin-top: 4px; }
+.ai-sync-badge { background: rgba(0,240,255,0.05); border: 1px solid rgba(0,240,255,0.2); padding: 12px; border-radius: 10px; font-size: 0.85rem; color: #00f0ff; margin-top: 12px; text-align: center; }
 
-// Daily Challenge Engine Combination builder
-function startDailyChallengeCombination() {
-    triggerAudioFeedback("click");
-    state.currentCategory = "daily-mix";
-    
-    // Collect 5 structured randomized tracks across various category layers
-    let pool = [];
-    Object.keys(quizDatabase).forEach(k => {
-        pool = pool.concat(quizDatabase[k]);
-    });
-    
-    // Shuffle global pool array systematically
-    pool.sort(() => 0.5 - Math.random());
-    state.currentQuestionsArray = pool.slice(0, 5); 
-    launchQuizViewportLayout("Daily Custom Randomized Mix");
-}
+/* Helper Utility Classes */
+.hidden-element { display: none !important; }
+.pulse-animation { animation: textPulseEffect 2s infinite alternate; }
+@keyframes textPulseEffect { from { opacity: 0.6; } to { opacity: 1; } }
 
-// Standard Quiz Engine Core Runtime
-function startQuizCategory(catId) {
-    if (!quizDatabase[catId] || quizDatabase[catId].length === 0) return;
-    state.currentCategory = catId;
-    state.currentQuestionsArray = JSON.parse(JSON.stringify(quizDatabase[catId])); // deep clone tracking elements
-    launchQuizViewportLayout(categoriesRegistry.find(c => c.id === catId)?.name || "Quiz Evaluation");
-}
-
-function launchQuizViewportLayout(titleName) {
-    state.currentQuestionIndex = 0;
-    state.correctCount = 0;
-    state.wrongCount = 0;
-    state.skippedCount = 0;
-    
-    document.getElementById("quiz-category-title").innerText = titleName;
-    document.getElementById("total-q-num").innerText = state.currentQuestionsArray.length;
-    document.getElementById("live-score").innerText = "0";
-
-    switchView("view-quiz");
-    presentCurrentQuestionIndexData();
-}
-
-function presentCurrentQuestionIndexData() {
-    clearInterval(state.timerInterval);
-    
-    const currentQuestion = state.currentQuestionsArray[state.currentQuestionIndex];
-    document.getElementById("current-q-num").innerText = state.currentQuestionIndex + 1;
-    document.getElementById("question-text-display").innerText = currentQuestion.question;
-    
-    // Progress calculation tracking
-    const percentageProgress = ((state.currentQuestionIndex) / state.currentQuestionsArray.length) * 100;
-    document.getElementById("quiz-progress-bar").style.width = `${percentageProgress}%`;
-
-    // Render Answers Grid Loop Options
-    const optionsGrid = document.getElementById("options-grid");
-    optionsGrid.innerHTML = "";
-    
-    // UI Layout Handling adjustment based on long layout questions sizing specs
-    if (currentQuestion.options.length > 4) {
-        document.getElementById("long-scroll-hint").classList.remove("hidden-element");
-        optionsGrid.style.maxHeight = "320px";
-        optionsGrid.style.overflowY = "auto";
-    } else {
-        document.getElementById("long-scroll-hint").classList.add("hidden-element");
-        optionsGrid.style.maxHeight = "none";
-        optionsGrid.style.overflowY = "visible";
-    }
-
-    currentQuestion.options.forEach(option => {
-        const btn = document.createElement("button");
-        btn.className = "option-node-item";
-        btn.innerText = option;
-        btn.addEventListener("click", () => handleUserSelectionAction(btn, option, currentQuestion));
-        optionsGrid.appendChild(btn);
-    });
-
-    // Control structural navigation state resets
-    document.getElementById("quiz-btn-next").classList.add("disabled");
-    document.getElementById("quiz-btn-next").disabled = true;
-    
-    if (state.currentQuestionIndex === state.currentQuestionsArray.length - 1) {
-        document.getElementById("quiz-btn-next").classList.add("hidden-element");
-        document.getElementById("quiz-btn-submit").classList.remove("hidden-element");
-    } else {
-        document.getElementById("quiz-btn-next").classList.remove("hidden-element");
-        document.getElementById("quiz-btn-submit").classList.add("hidden-element");
-    }
-
-    startCountDownTimerEngine();
-}
-
-function startCountDownTimerEngine() {
-    state.timerSecondsRemaining = 30;
-    const progressCircle = document.getElementById("timer-progress");
-    const timerText = document.getElementById("timer-text");
-    timerText.innerText = state.timerSecondsRemaining;
-    
-    // Reset SVG Dashoffsets tracking
-    progressCircle.style.strokeDashoffset = "0";
-
-    state.timerInterval = setInterval(() => {
-        state.timerSecondsRemaining--;
-        timerText.innerText = state.timerSecondsRemaining;
-        
-        // Dynamic circular countdown updates calculations
-        const offset = (30 - state.timerSecondsRemaining) * (283 / 30);
-        progressCircle.style.strokeDashoffset = offset;
-
-        if (state.timerSecondsRemaining <= 0) {
-            clearInterval(state.timerInterval);
-            autoTimeoutQuestionTrack();
-        }
-    }, 1000);
-}
-
-function handleUserSelectionAction(selectedBtn, chosenText, questionObj) {
-    clearInterval(state.timerInterval);
-    triggerAudioFeedback("click");
-
-    const allButtons = document.querySelectorAll("#options-grid .option-node-item");
-    allButtons.forEach(b => b.classList.add("disabled"));
-
-    // Check configuration parameters determining opinion handling systems vs absolute correct/wrong checks
-    if (questionObj.isOpinion) {
-        selectedBtn.classList.add("correct-state"); // Opinions are inherently validated uniformly
-        state.correctCount++;
-        state.score += 10; // Allocate uniform base evaluation experience scale weights
-        state.answersHistory[questionObj.id] = chosenText;
-        localStorage.setItem("gze_user_choices", JSON.stringify(state.answersHistory));
-    } else {
-        // Absolute Truth Validation Sequence
-        if (chosenText === questionObj.answer) {
-            selectedBtn.classList.add("correct-state");
-            triggerAudioFeedback("correct");
-            state.correctCount++;
-            state.score += 20; // Correct verification weights points allocation
-        } else {
-            selectedBtn.classList.add("wrong-state");
-            triggerAudioFeedback("wrong");
-            state.wrongCount++;
-            
-            // Highlight explicit correct response row automatically to track visually cleanly
-            allButtons.forEach(b => {
-                if(b.innerText === questionObj.answer) b.classList.add("correct-state");
-            });
-        }
-    }
-
-    document.getElementById("live-score").innerText = state.score;
-    document.getElementById("quiz-btn-next").classList.remove("disabled");
-    document.getElementById("quiz-btn-next").disabled = false;
-}
-
-function autoTimeoutQuestionTrack() {
-    state.skippedCount++;
-    const allButtons = document.querySelectorAll("#options-grid .option-node-item");
-    allButtons.forEach(b => b.classList.add("disabled"));
-    
-    const currentQuestion = state.currentQuestionsArray[state.currentQuestionIndex];
-    if(!currentQuestion.isOpinion) {
-        allButtons.forEach(b => {
-            if(b.innerText === currentQuestion.answer) b.classList.add("correct-state");
-        });
-    }
-    
-    document.getElementById("quiz-btn-next").classList.remove("disabled");
-    document.getElementById("quiz-btn-next").disabled = false;
-    advanceToNextQuestion();
-}
-
-function advanceToNextQuestion() {
-    triggerAudioFeedback("click");
-    state.currentQuestionIndex++;
-    if (state.currentQuestionIndex < state.currentQuestionsArray.length) {
-        presentCurrentQuestionIndexData();
-    } else {
-        evaluateFinalQuizRunRun();
-    }
-}
-
-function skipCurrentQuestion() {
-    clearInterval(state.timerInterval);
-    state.skippedCount++;
-    advanceToNextQuestion();
-}
-
-function evaluateFinalQuizRunRun() {
-    clearInterval(state.timerInterval);
-    triggerAudioFeedback("finish");
-    saveGlobalScoreProgress();
-
-    // Render Metrics Calculation Breakdown dashboard
-    document.getElementById("res-score").innerText = state.score;
-    document.getElementById("res-correct").innerText = state.correctCount;
-    document.getElementById("res-wrong").innerText = state.wrongCount;
-    document.getElementById("res-skipped").innerText = state.skippedCount;
-    
-    const totalQ = state.currentQuestionsArray.length;
-    const accuracyPercent = totalQ > 0 ? Math.round((state.correctCount / totalQ) * 100) : 0;
-    document.getElementById("res-percent").innerText = `${accuracyPercent}%`;
-    
-    const targetRank = calculateRankTitle(state.score);
-    document.getElementById("result-rank").innerText = targetRank;
-
-    // Performance dynamic analysis phrasing text loader
-    let performanceText = "Keep training! Try another category to sharpen your score vectors.";
-    if (accuracyPercent >= 80) performanceText = "Elite performance! Your Gen Z cultural IQ metrics are unmatched.";
-    else if (accuracyPercent >= 50) performanceText = "Solid rank metrics. Complete additional nodes to master.";
-    document.getElementById("result-message").innerText = performanceText;
-
-    switchView("view-results");
-}
-
-function returnToHomeDashboardView() {
-    triggerAudioFeedback("click");
-    clearInterval(state.timerInterval);
-    switchView("view-home");
-}
-
-function switchView(viewId) {
-    const views = document.querySelectorAll(".app-view");
-    views.forEach(v => v.classList.remove("active"));
-    document.getElementById(viewId).classList.add("active");
-}
-
-function copyMetricsToClipboard() {
-    triggerAudioFeedback("click");
-    const currentRank = calculateRankTitle(state.score);
-    const clipString = `GEN Z ERA PROFILE CERTIFICATE\nScore: ${state.score} XP\nRank Tier: ${currentRank}\nVerify at Malik Nafay Labs Engine Ecosystem Hub.`;
-    navigator.clipboard.writeText(clipString).then(() => {
-        alert("System score certificate profile string copied to clipboard successfully!");
-    });
-}
+/* Global Scrollbar Customization tracking styles */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
