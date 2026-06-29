@@ -1,12 +1,11 @@
 // ==========================================
 // QUESTIONS.JS - GEN Z ERA QUIZ DATABASE
-// Premium Commercial Quality
+// Premium Commercial Quality - Complete File
 // ==========================================
 
 const quizData = {
   // ==========================================
   // CATEGORY 1: MCQS - 50 EASY QUESTIONS
-  // Topics: Pakistan, Islamic, World, Science, Computer, History, Sports, English, Math, Technology, Geography, Animals, Food, Cars, Bikes, Celebrities, Flags, Capitals, General Knowledge
   // ==========================================
   mcqs: [
     {
@@ -163,7 +162,7 @@ const quizData = {
     },
     {
       id: 20,
-      question: "Namaz mein kitni rakaten hain (Fajr)?",
+      question: "Namaz mein kitne rakaten hain (Fajr)?",
       options: ["2", "4", "3", "1"],
       correct: 0,
       difficulty: "Easy",
@@ -413,7 +412,6 @@ const quizData = {
 
   // ==========================================
   // CATEGORY 2: YOUR FAVORITES - 30 QUESTIONS
-  // NO CORRECT ANSWER - Opinion based
   // ==========================================
   favorites: [
     {
@@ -630,7 +628,6 @@ const quizData = {
 
   // ==========================================
   // CATEGORY 3: LONG QUESTIONS - 10 QUESTIONS
-  // Thought-provoking multiple choice
   // ==========================================
   longQuestions: [
     {
@@ -707,7 +704,6 @@ const quizData = {
 
   // ==========================================
   // CATEGORY 4: PUZZLES - 30 DETECTIVE PUZZLES
-  // Family-friendly logic puzzles
   // ==========================================
   puzzles: [
     {
