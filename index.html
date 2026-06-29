@@ -1,1 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>GEN Z ERA · IQ & Puzzles</title>
+  <!-- External resources (only links, no CSS/JS inline) -->
+  <link rel="stylesheet" href="style.css">
+  <!-- preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Google Fonts (optional but part of premium design) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen" class="loading-screen" aria-label="Loading content" role="status">
+    <div class="loader"><i class="fas fa-spinner fa-pulse fa-3x"></i></div>
+    <p>Loading GEN Z ERA …</p>
+  </div>
 
+  <!-- OVERLAY & MODAL BACKGROUND (used for popups) -->
+  <div id="modal-overlay" class="modal-overlay" aria-hidden="true"></div>
+  <div id="modal-background" class="modal-background" aria-hidden="true"></div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- NOTIFICATION CONTAINER -->
+  <div id="notification-container" class="notification-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- SCROLL TO TOP BUTTON -->
+  <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- FLOATING ACTION BUTTON (FAB) -->
+  <button id="fab-button" class="fab-button" aria-label="Quick actions"><i class="fas fa-plus"></i></button>
+
+  <!-- SEARCH RESULTS CONTAINER (hidden by default) -->
+  <div id="search-results-container" class="search-results-container" aria-live="polite"></div>
+
+  <!-- MOBILE NAVIGATION (hidden by default, appears on small screens) -->
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation">
+    <ul>
+      <li><a href="#hero"><i class="fas fa-home"></i><span>Home</span></a></li>
+      <li><a href="#categories"><i class="fas fa-th-large"></i><span>Categories</span></a></li>
+      <li><a href="#leaderboard"><i class="fas fa-trophy"></i><span>Leaderboard</span></a></li>
+      <li><a href="#profile"><i class="fas fa-user"></i><span>Profile</span></a></li>
+      <li><a href="#daily"><i class="fas fa-calendar-day"></i><span>Daily</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== HEADER (fixed) ========== -->
+  <header id="main-header" class="main-header" role="banner" aria-label="Site header">
+    <div class="header-left">
+      <div class="logo-wrapper">
+        <i class="fas fa-bolt logo-icon" aria-hidden="true"></i>
+        <span class="site-name">GEN Z ERA</span>
+      </div>
+      <span class="subtitle-header">2000–2026</span>
+    </div>
+    <div class="header-center">
+      <form id="search-form" class="search-form" role="search" aria-label="Site search">
+        <button type="button" id="search-toggle" class="search-toggle" aria-label="Open search"><i class="fas fa-search"></i></button>
+        <input type="search" id="search-input" class="search-input" placeholder="Search quizzes, puzzles..." aria-label="Search">
+      </form>
+    </div>
+    <div class="header-right">
+      <button id="signin-btn" class="header-btn" aria-label="Sign in"><i class="fas fa-user-circle"></i><span class="btn-label">Sign In</span></button>
+      <button id="help-btn" class="header-btn" aria-label="Help"><i class="fas fa-question-circle"></i></button>
+      <button id="darkmode-btn" class="header-btn" aria-label="Toggle dark mode"><i class="fas fa-moon"></i></button>
+      <button id="profile-btn" class="header-btn" aria-label="Profile"><i class="fas fa-id-badge"></i></button>
+      <button id="notification-btn" class="header-btn" aria-label="Notifications"><i class="fas fa-bell"></i><span class="notif-badge">3</span></button>
+    </div>
+  </header>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section id="hero" class="hero-section" aria-labelledby="hero-title">
+    <div class="hero-content">
+      <h1 id="hero-title">GEN Z ERA</h1>
+      <p class="hero-subtitle">The Era of 2000–2026</p>
+      <p class="hero-desc">Play thousands of Knowledge Questions, IQ Challenges, Puzzles and Fun Polls.</p>
+      <div class="hero-buttons">
+        <button class="btn-primary">Start Quiz</button>
+        <button class="btn-secondary">Random Quiz</button>
+        <button class="btn-accent">Daily Challenge</button>
+        <button class="btn-outline">Leaderboard</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CATEGORY SECTION (long horizontal cards) ========== -->
+  <section id="categories" class="categories-section" aria-labelledby="categories-title">
+    <h2 id="categories-title" class="section-title">Explore Categories</h2>
+    <div class="category-list">
+      <!-- card 1 -->
+      <article class="category-card" aria-label="MCQS category">
+        <div class="card-icon"><i class="fas fa-list-ul"></i></div>
+        <div class="card-body">
+          <h3>MCQS</h3>
+          <span class="badge">50 Questions</span>
+          <p class="card-desc">Multiple choice questions</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 2 -->
+      <article class="category-card" aria-label="Your Favorites category">
+        <div class="card-icon"><i class="fas fa-heart"></i></div>
+        <div class="card-body">
+          <h3>YOUR FAVORITES</h3>
+          <span class="badge">30 Questions</span>
+          <p class="card-desc">Curated just for you</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 3 -->
+      <article class="category-card" aria-label="Long Questions category">
+        <div class="card-icon"><i class="fas fa-align-left"></i></div>
+        <div class="card-body">
+          <h3>LONG QUESTIONS</h3>
+          <span class="badge">10 Questions</span>
+          <p class="card-desc">In-depth challenging</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 4 -->
+      <article class="category-card" aria-label="Puzzles category">
+        <div class="card-icon"><i class="fas fa-puzzle-piece"></i></div>
+        <div class="card-body">
+          <h3>PUZZLES</h3>
+          <span class="badge">30 Questions</span>
+          <p class="card-desc">Brain teasers</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 5 -->
+      <article class="category-card" aria-label="Freedom All in One category">
+        <div class="card-icon"><i class="fas fa-rocket"></i></div>
+        <div class="card-body">
+          <h3>FREEDOM ALL IN ONE</h3>
+          <span class="badge">100 Questions</span>
+          <p class="card-desc">Mega mix</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 6 Emoji Quiz -->
+      <article class="category-card" aria-label="Emoji Quiz category">
+        <div class="card-icon"><i class="fas fa-smile"></i></div>
+        <div class="card-body">
+          <h3>Emoji Quiz</h3>
+          <span class="badge">20 Questions</span>
+          <p class="card-desc">Guess the emoji</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 7 Guess Movie -->
+      <article class="category-card" aria-label="Guess Movie category">
+        <div class="card-icon"><i class="fas fa-film"></i></div>
+        <div class="card-body">
+          <h3>Guess Movie</h3>
+          <span class="badge">15 Questions</span>
+          <p class="card-desc">Film buff challenge</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 8 Guess Song -->
+      <article class="category-card" aria-label="Guess Song category">
+        <div class="card-icon"><i class="fas fa-music"></i></div>
+        <div class="card-body">
+          <h3>Guess Song</h3>
+          <span class="badge">18 Questions</span>
+          <p class="card-desc">Name that tune</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 9 IQ Challenge -->
+      <article class="category-card" aria-label="IQ Challenge category">
+        <div class="card-icon"><i class="fas fa-brain"></i></div>
+        <div class="card-body">
+          <h3>IQ Challenge</h3>
+          <span class="badge">25 Questions</span>
+          <p class="card-desc">Test your IQ</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 10 Impossible Choices -->
+      <article class="category-card" aria-label="Impossible Choices category">
+        <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+        <div class="card-body">
+          <h3>Impossible Choices</h3>
+          <span class="badge">12 Questions</span>
+          <p class="card-desc">Tough decisions</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+      <!-- card 11 Personality Quiz -->
+      <article class="category-card" aria-label="Personality Quiz category">
+        <div class="card-icon"><i class="fas fa-user-tag"></i></div>
+        <div class="card-body">
+          <h3>Personality Quiz</h3>
+          <span class="badge">22 Questions</span>
+          <p class="card-desc">Know yourself</p>
+        </div>
+        <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== PROFILE SECTION ========== -->
+  <section id="profile" class="profile-section" aria-labelledby="profile-title">
+    <h2 id="profile-title" class="section-title">Your Profile</h2>
+    <div class="profile-card">
+      <div class="profile-avatar"><img src="https://ui-avatars.com/api/?name=User+Name&size=80&background=6C5CE7&color=fff" alt="User avatar"></div>
+      <div class="profile-info">
+        <h3>Username</h3>
+        <p class="profile-email">user@genzera.com</p>
+        <div class="profile-stats">
+          <span><strong>Rank</strong> #42</span>
+          <span><strong>Highest Score</strong> 980</span>
+          <span><strong>Completed</strong> 8</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LEADERBOARD ========== -->
+  <section id="leaderboard" class="leaderboard-section" aria-labelledby="leaderboard-title">
+    <h2 id="leaderboard-title" class="section-title">Leaderboard</h2>
+    <div class="leaderboard-list">
+      <article class="leaderboard-entry"><span class="rank">#1</span><img src="https://ui-avatars.com/api/?name=Alex&size=32&background=00B894&color=fff" alt="avatar"><span class="name">Alex</span><span class="points">1250</span><span class="badge"><i class="fas fa-crown"></i></span></article>
+      <article class="leaderboard-entry"><span class="rank">#2</span><img src="https://ui-avatars.com/api/?name=Jordan&size=32&background=FDCB6E&color=fff" alt="avatar"><span class="name">Jordan</span><span class="points">1180</span><span class="badge"><i class="fas fa-star"></i></span></article>
+      <article class="leaderboard-entry"><span class="rank">#3</span><img src="https://ui-avatars.com/api/?name=Taylor&size=32&background=E17055&color=fff" alt="avatar"><span class="name">Taylor</span><span class="points">1120</span><span class="badge"><i class="fas fa-medal"></i></span></article>
+    </div>
+  </section>
+
+  <!-- ========== DAILY CHALLENGE ========== -->
+  <section id="daily" class="daily-section" aria-labelledby="daily-title">
+    <h2 id="daily-title" class="section-title">Daily Challenge</h2>
+    <div class="daily-card">
+      <p class="daily-desc">Today's Challenge: “Gen Z Trivia”</p>
+      <button class="btn-primary">Play Now</button>
+      <div class="countdown" aria-label="Countdown timer">⏳ 12:34:56</div>
+    </div>
+  </section>
+
+  <!-- ========== QUIZ CONTAINER (hidden by default, shown via JS) ========== -->
+  <section id="quiz-container" class="quiz-container" aria-label="Quiz container" hidden>
+    <div class="quiz-header">
+      <span class="q-number">Question 1/10</span>
+      <span class="q-category">MCQS</span>
+      <span class="q-progress">Progress 10%</span>
+      <span class="q-timer">⏱ 00:30</span>
+    </div>
+    <p class="q-text">What is the capital of France?</p>
+    <div class="answers-grid">
+      <button class="answer-box">Berlin</button>
+      <button class="answer-box">Madrid</button>
+      <button class="answer-box">Paris</button>
+      <button class="answer-box">Rome</button>
+    </div>
+    <div class="quiz-actions">
+      <button class="btn-outline">Previous</button>
+      <button class="btn-secondary">Next</button>
+      <button class="btn-outline">Skip</button>
+      <button class="btn-primary">Submit</button>
+    </div>
+  </section>
+
+  <!-- ========== RESULT SECTION (hidden) ========== -->
+  <section id="result-section" class="result-section" aria-label="Quiz result" hidden>
+    <div class="result-stats">
+      <span>✅ Correct: 7</span>
+      <span>❌ Wrong: 2</span>
+      <span>⏭ Skipped: 1</span>
+      <span>📊 Percentage: 70%</span>
+      <span>🏅 Rank: Silver</span>
+      <span>⭐ Performance: Great</span>
+    </div>
+    <div class="result-actions">
+      <button class="btn-primary">Restart</button>
+      <button class="btn-secondary">Home</button>
+      <button class="btn-accent">Share</button>
+    </div>
+  </section>
+
+  <!-- ========== POPUPS (dialogs) ========== -->
+  <!-- Sign In Popup -->
+  <dialog id="signin-popup" class="popup-dialog" aria-label="Sign in">
+    <form method="dialog" class="popup-form">
+      <h3>Sign In</h3>
+      <label for="gmail-input">Gmail</label>
+      <input type="email" id="gmail-input" placeholder="example@gmail.com" aria-label="Gmail address">
+      <button class="btn-primary">Continue</button>
+      <button class="btn-secondary" id="signin-cancel">Cancel</button>
+      <div class="verification-area">Verification code will be sent</div>
+    </form>
+  </dialog>
+
+  <!-- Help Popup -->
+  <dialog id="help-popup" class="popup-dialog" aria-label="Help">
+    <div class="help-content">
+      <h3>Help & Info</h3>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Developer: Malik Nafay Labs</a></li>
+        <li><a href="#">Useful Links</a></li>
+        <li><a href="#">Social Media</a></li>
+      </ul>
+      <button class="btn-secondary" id="help-close">Close</button>
+    </div>
+  </dialog>
+
+  <!-- Search Popup (dialog) -->
+  <dialog id="search-popup" class="popup-dialog" aria-label="Search">
+    <form method="dialog">
+      <h3>Search</h3>
+      <input type="search" placeholder="Search for quizzes..." aria-label="Search input">
+      <button class="btn-primary">Search</button>
+      <button class="btn-secondary" id="search-close">Cancel</button>
+    </form>
+  </dialog>
+
+  <!-- Settings Popup -->
+  <dialog id="settings-popup" class="popup-dialog" aria-label="Settings">
+    <h3>Settings</h3>
+    <p>Theme, language, notifications</p>
+    <button class="btn-secondary" id="settings-close">Close</button>
+  </dialog>
+
+  <!-- Leaderboard Popup (extended) -->
+  <dialog id="leaderboard-popup" class="popup-dialog" aria-label="Leaderboard">
+    <h3>Leaderboard</h3>
+    <div class="leaderboard-list">
+      <article class="leaderboard-entry"><span>#1</span><span>Alex</span><span>1250</span></article>
+      <article class="leaderboard-entry"><span>#2</span><span>Jordan</span><span>1180</span></article>
+    </div>
+    <button class="btn-secondary" id="leaderboard-close">Close</button>
+  </dialog>
+
+  <!-- Profile Popup -->
+  <dialog id="profile-popup" class="popup-dialog" aria-label="Profile details">
+    <h3>Profile</h3>
+    <p>Username: User</p>
+    <p>Email: user@genzera.com</p>
+    <p>Rank: #42</p>
+    <button class="btn-secondary" id="profile-close">Close</button>
+  </dialog>
+
+  <!-- Result Popup (alternate) -->
+  <dialog id="result-popup" class="popup-dialog" aria-label="Result popup">
+    <h3>Your Result</h3>
+    <p>Correct: 7 | Wrong: 2 | Skipped: 1</p>
+    <button class="btn-primary" id="result-close">OK</button>
+  </dialog>
+
+  <!-- ========== ASIDE (extra) ========== -->
+  <aside id="extra-aside" aria-label="Extra information">
+    <p>⚡ Trends, IQ, Puzzles — all in one place.</p>
+  </aside>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="main-footer" role="contentinfo">
+    <div class="footer-content">
+      <div class="footer-developer">
+        <span>Developer: Malik Nafay Labs</span>
+        <span>Version 2.0.1</span>
+      </div>
+      <div class="footer-links">
+        <a href="#">Useful Links</a>
+        <a href="#">Social</a>
+        <a href="#">Privacy</a>
+      </div>
+      <div class="social-links">
+        <a href="https://whatsapp.com/channel/0029Vb8Z5szGOj9wNBebrQ2U" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://maliknafaytop10.github.io/ELEVEN-PRO-/" aria-label="Eleven Pro"><i class="fas fa-link"></i></a>
+        <a href="https://maliknafaytop10.github.io/the-ultimate-song/" aria-label="Ultimate Song"><i class="fas fa-music"></i></a>
+        <a href="https://maliknafaytop10.github.io/POETS-WRITES/" aria-label="Poets"><i class="fas fa-feather"></i></a>
+        <a href="https://maliknafaytop10.github.io/NAFAY-WRITE/" aria-label="Nafay Write"><i class="fas fa-pen"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="X"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Threads"><i class="fab fa-threads"></i></a>
+        <a href="#" aria-label="Snapchat"><i class="fab fa-snapchat"></i></a>
+      </div>
+      <div class="footer-copy">&copy; 2026 GEN Z ERA · All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- External scripts (only JS, no inline) -->
+  <script src="questions.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
