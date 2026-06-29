@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEN Z ERA | The Era of 2000-2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <div class="rgb-blur-1"></div>
+    <div class="rgb-blur-2"></div>
+
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader"></div>
+        <h2 class="glow-text">LOADING GEN Z ERA...</h2>
+    </div>
+
+    <audio id="sound-click" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" preload="auto"></audio>
+    <audio id="sound-correct" src="https://assets.mixkit.co/active_storage/sfx/1435/1435-84.wav" preload="auto"></audio>
+    <audio id="sound-wrong" src="https://assets.mixkit.co/active_storage/sfx/959/959-84.wav" preload="auto"></audio>
+    <audio id="sound-finish" src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav" preload="auto"></audio>
+
+    <header class="glass-panel header-main">
+        <div class="header-logo-zone">
+            <h1 class="logo-text">GEN Z ERA</h1>
+            <p class="subtitle-text">The Era of 2000–2026</p>
+        </div>
+        <div class="header-controls">
+            <div class="search-bar-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="global-search" placeholder="Search categories...">
+            </div>
+            <button id="btn-mute" class="control-btn" title="Toggle Sound"><i class="fas fa-volume-up"></i></button>
+            <button id="btn-theme" class="control-btn" title="Toggle Mode"><i class="fas fa-moon"></i></button>
+            <button id="btn-help" class="control-btn"><i class="fas fa-question-circle"></i> Help</button>
+            <button id="btn-auth" class="action-btn-premium"><i class="fas fa-user-astronaut"></i> <span id="auth-btn-text">Sign In</span></button>
+        </div>
+    </header>
+
+    <main class="main-layout">
+        
+        <aside class="sidebar-left">
+            <div class="glass-panel profile-card">
+                <div class="profile-header">
+                    <div class="avatar-glow"><i class="fas fa-user-shield"></i></div>
+                    <div>
+                        <h3 id="profile-name">Guest User</h3>
+                        <span id="profile-rank" class="rank-badge bronze">Bronze</span>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-box"><h5>Score</h5><p id="stat-score">0</p></div>
+                    <div class="stat-box"><h5>Rank</h5><p id="stat-rank-title">Bronze</p></div>
+                </div>
+                <div id="auth-status-tag" class="auth-tag">Not Signed In</div>
+            </div>
+
+            <div class="glass-panel leaderboard-card">
+                <h3><i class="fas fa-crown gold-text"></i> Top Players</h3>
+                <div class="leaderboard-tabs">
+                    <button class="tab-btn active" onclick="switchLeaderboard('all')">All-Time</button>
+                    <button class="tab-btn" onclick="switchLeaderboard('daily')">Daily</button>
+                </div>
+                <div id="leaderboard-list" class="leaderboard-rows">
+                    </div>
+            </div>
+        </aside>
+
+        <section class="content-viewport">
+            
+            <div id="view-home" class="app-view active">
+                <div id="daily-challenge-banner" class="glass-panel daily-banner glow-border-rgb">
+                    <div class="daily-info">
+                        <span class="pulse-tag">DAILY</span>
+                        <div>
+                            <h4>Daily Randomized Challenge</h4>
+                            <p>Mix testing combo updated daily. Complete to get high ranking scores!</p>
+                        </div>
+                    </div>
+                    <button id="btn-start-daily" class="action-btn-premium">Play Now</button>
+                </div>
+
+                <div class="section-title-wrap">
+                    <h2 class="view-heading">THIS ERA TRENDS</h2>
+                    <p class="view-subheading">This website is made for Question & Answer, IQ Tests, Knowledge, Entertainment and Fun.</p>
+                </div>
+
+                <div id="categories-container" class="categories-list">
+                    </div>
+            </div>
+
+            <div id="view-quiz" class="app-view">
+                <div class="glass-panel quiz-header-panel">
+                    <div class="quiz-meta">
+                        <span id="quiz-category-title" class="category-badge">Category</span>
+                        <div class="quiz-counters">
+                            <span>Question: <b id="current-q-num">1</b>/<b id="total-q-num">10</b></span>
+                            <span>Score: <b id="live-score">0</b></span>
+                        </div>
+                    </div>
+                    <div class="progress-track">
+                        <div id="quiz-progress-bar" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="quiz-body-layout">
+                    <div class="glass-panel question-box">
+                        <div class="timer-container">
+                            <svg class="timer-svg" viewBox="0 0 100 100">
+                                <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                                <circle id="timer-progress" class="timer-fill" cx="50" cy="50" r="45"></circle>
+                            </svg>
+                            <span id="timer-text" class="timer-countdown-val">30</span>
+                        </div>
+                        <h3 id="question-text-display" class="question-title">Question text goes here in Roman Urdu?</h3>
+                    </div>
+
+                    <div id="options-grid" class="options-container">
+                        </div>
+
+                    <div id="long-scroll-hint" class="scroll-hint hidden">
+                        <i class="fas fa-arrows-alt-v"></i> Scroll options down if needed
+                    </div>
+                </div>
+
+                <div class="quiz-footer-nav">
+                    <button id="quiz-btn-home" class="control-btn"><i class="fas fa-home"></i> Home</button>
+                    <button id="quiz-btn-prev" class="control-btn"><i class="fas fa-chevron-left"></i> Prev</button>
+                    <button id="quiz-btn-skip" class="control-btn">Skip <i class="fas fa-forward"></i></button>
+                    <button id="quiz-btn-next" class="action-btn-premium disabled" disabled>Next <i class="fas fa-chevron-right"></i></button>
+                    <button id="quiz-btn-submit" class="action-btn-premium hidden-element">Submit Run</button>
+                </div>
+            </div>
+
+            <div id="view-results" class="app-view">
+                <div class="glass-panel result-card-main text-center">
+                    <div class="confetti-anchor"></div>
+                    <h2 class="glow-text main-result-title">COMPLETED!</h2>
+                    <p id="result-message" class="performance-msg">Excellent performance across the platform metrics!</p>
+                    
+                    <div class="rank-promotion-display">
+                        <span class="small-label">YOUR NEW SYSTEM RANK</span>
+                        <h1 id="result-rank" class="rank-text-highlight">DIAMOND</h1>
+                    </div>
+
+                    <div class="metrics-grid">
+                        <div class="metric-block"><span class="metric-val" id="res-score">0</span><span class="metric-lbl">Total Score</span></div>
+                        <div class="metric-block correct-bg"><span class="metric-val" id="res-correct">0</span><span class="metric-lbl">Correct</span></div>
+                        <div class="metric-block wrong-bg"><span class="metric-val" id="res-wrong">0</span><span class="metric-lbl">Wrong</span></div>
+                        <div class="metric-block skipped-bg"><span class="metric-val" id="res-skipped">0</span><span class="metric-lbl">Skipped</span></div>
+                        <div class="metric-block"><span class="metric-val" id="res-percent">0%</span><span class="metric-lbl">Accuracy</span></div>
+                    </div>
+
+                    <div class="result-action-footer">
+                        <button id="res-btn-restart" class="action-btn-premium"><i class="fas fa-redo"></i> Play Again</button>
+                        <button id="res-btn-home" class="control-btn"><i class="fas fa-home"></i> Back Home</button>
+                        <button id="res-btn-copy" class="control-btn"><i class="fas fa-copy"></i> Copy Score</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <div id="modal-auth" class="modal-overlay hidden-element">
+        <div class="glass-panel modal-box text-center">
+            <button class="close-modal-x" onclick="closeModal('modal-auth')">&times;</button>
+            <div class="modal-icon-header"><i class="fas fa-shield-halved rgb-text-glow"></i></div>
+            <h2>Premium Sign In</h2>
+            <p class="modal-subtitle">Enter your official Gmail account to link your cloud ranks.</p>
+            
+            <div class="input-group-premium">
+                <input type="email" id="auth-email-input" placeholder="example@gmail.com" autocomplete="off">
+                <span class="input-focus-line"></span>
+            </div>
+            <p id="auth-error-msg" class="error-text hidden-element">Please provide a valid account ending with @gmail.com</p>
+            
+            <button id="auth-submit-action" class="action-btn-premium full-width">Verify Authenticity</button>
+            <div id="ai-verification-badge" class="ai-verify-tag hidden-element">
+                <i class="fas fa-circle-check"></i> Verified by AI Pro
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-help" class="modal-overlay hidden-element">
+        <div class="glass-panel modal-box large-modal">
+            <button class="close-modal-x" onclick="closeModal('modal-help')">&times;</button>
+            <h2>Help Desk & Information Center</h2>
+            <hr class="separator-line">
+            
+            <div class="help-scroll-area">
+                <h4>About Gen Z Era Website</h4>
+                <p>An elite, premium gamified platform handling trends, IQ metrics, and cultural choices built for high performance and low-latency entertainment evaluation tracking options across the 2000–2026 timelines.</p>
+                
+                <h4>Privacy Policy</h4>
+                <p>Data processing parameters are stored directly on the internal local machine cluster (Local Storage). Zero external track footprints are captured.</p>
+
+                <h4>Developer Framework Identity</h4>
+                <p>Designed and architecture engineered under premium operational guidelines by <b>Malik Nafay Labs</b>.</p>
+
+                <h4>Contact & Communications</h4>
+                <p>For technical infrastructure requests or production engineering audits, communicate via our community networks listed below.</p>
+                
+                <h4>Nafay Labs Matrix Network Ecosystem Links</h4>
+                <div class="links-cards-grid">
+                    <a href="https://whatsapp.com/channel/0029Vb8Z5szGOj9wNBebrQ2U" target="_blank" class="link-card-anchor">
+                        <div class="link-card"><i class="fab fa-whatsapp"></i><span>WhatsApp Channel</span></div>
+                    </a>
+                    <a href="https://maliknafaytop10.github.io/ELEVEN-PRO-/" target="_blank" class="link-card-anchor">
+                        <div class="link-card"><i class="fas fa-globe"></i><span>Website Portfolio</span></div>
+                    </a>
+                    <a href="https://maliknafaytop10.github.io/the-ultimate-song/" target="_blank" class="link-card-anchor">
+                        <div class="link-card"><i class="fas fa-music"></i><span>Music Catalog</span></div>
+                    </a>
+                    <a href="https://maliknafaytop10.github.io/POETS-WRITES/" target="_blank" class="link-card-anchor">
+                        <div class="link-card"><i class="fas fa-pen-fancy"></i><span>Poet Works Portfolio</span></div>
+                    </a>
+                    <a href="https://maliknafaytop10.github.io/NAFAY-WRITE/" target="_blank" class="link-card-anchor">
+                        <div class="link-card"><i class="fas fa-book"></i><span>Creative Database</span></div>
+                    </a>
+                </div>
+
+                <h4>Social Presence Hub Icons</h4>
+                <div class="social-icons-row">
+                    <a href="https://www.tiktok.com/@pakpattan123" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i> @pakpattan123</a>
+                    <a href="https://www.instagram.com/maliknafay321" target="_blank" title="Instagram"><i class="fab fa-instagram"></i> @maliknafay321</a>
+                    <a href="https://x.com/falconlabs_official" target="_blank" title="X Desktop Platform"><i class="fab fa-x-twitter"></i> @falconlabs_official</a>
+                    <a href="https://www.snapchat.com/add/nafaypakpattan1" target="_blank" title="Snapchat System Link"><i class="fab fa-snapchat"></i> nafaypakpattan1</a>
+                    <a href="#" target="_blank" title="Threads Network"><i class="fab fa-threads"></i> Threads Connected</a>
+                </div>
+            </div>
+            
+            <footer class="modal-footer-credits">
+                <p>System Engine Framework: Developed by Malik Nafay Labs</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
